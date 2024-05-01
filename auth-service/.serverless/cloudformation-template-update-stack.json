@@ -134,6 +134,13 @@
                       "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/auth-name-dev*:*:*"
                     }
                   ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:GetItem"
+                  ],
+                  "Resource": "arn:aws:dynamodb:eu-central-1:590183937995:table/Users"
                 }
               ]
             }
@@ -162,7 +169,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/auth-name/dev/1714563003998-2024-05-01T11:30:03.998Z/auth-name.zip"
+          "S3Key": "serverless/auth-name/dev/1714570328050-2024-05-01T13:32:08.050Z/auth-name.zip"
         },
         "Handler": "./dist/index.auth",
         "Runtime": "nodejs20.x",
@@ -185,14 +192,14 @@
         "AuthLogGroup"
       ]
     },
-    "AuthLambdaVersion46XEnNO6g7NzDnxEEanuY9I7DrLpKqjrFiNi6xcLg": {
+    "AuthLambdaVersion4gevFNmmjNvFw4Yxvn74YF4L8XUVPoYdwC7XmIh5ys": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AuthLambdaFunction"
         },
-        "CodeSha256": "NWqaRoUI5qz0pGRqQeqov8uR3+h96izOHk3ZNgyPWbE="
+        "CodeSha256": "QAfodtD4krx4YCjn6oVXeqEOWvLvRxOXoE2K5JDXvQc="
       }
     },
     "ApiGatewayRestApi": {
@@ -325,7 +332,7 @@
         "AuthLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1714562996345": {
+    "ApiGatewayDeployment1714570310492": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -410,7 +417,7 @@
     "AuthLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AuthLambdaVersion46XEnNO6g7NzDnxEEanuY9I7DrLpKqjrFiNi6xcLg"
+        "Ref": "AuthLambdaVersion4gevFNmmjNvFw4Yxvn74YF4L8XUVPoYdwC7XmIh5ys"
       },
       "Export": {
         "Name": "sls-auth-name-dev-AuthLambdaFunctionQualifiedArn"

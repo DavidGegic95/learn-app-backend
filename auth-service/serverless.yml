@@ -3,7 +3,11 @@ provider:
   name: aws
   runtime: nodejs20.x
   region: eu-central-1
-
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:GetItem
+      Resource: "arn:aws:dynamodb:eu-central-1:590183937995:table/Users"
 # plugins:
 #   - serverless-offline
 
@@ -15,9 +19,14 @@ functions:
           path: auth/{action}
           method: "any"
           cors: true
-          authorizer: aws_iam
+          # authorizer: aws_iam
     environment:
       DYNAMODB_TABLE: Users
+    # iamRoleStatements:
+    #   - Effect: Allow
+    #     Action:
+    #       - dynamodb:GetItem
+    #     Resource: "arn:aws:dynamodb:eu-central-1:590183937995:table/Users"
 
 resources:
   Resources:

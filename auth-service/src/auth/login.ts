@@ -6,8 +6,28 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 export const login = async (event: any): Promise<APIGatewayProxyResult> => {
   try {
-    const { email, password } = event.body || "";
-
+    let email;
+    let password;
+    if (typeof event.body === "string") {
+      const eventObj = JSON.parse(event.body) || "";
+      email = eventObj.email;
+      password = eventObj.password;
+    } else if (
+      event.body &&
+      typeof event.body === "object" &&
+      "password" in event.body &&
+      "email" in event.body
+    ) {
+      email = event.body["email"];
+      password = event.body["password"];
+    } else {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          message: "Required request body, or corresponding paramaters missing",
+        }),
+      };
+    }
     // Check if the user exists in DynamoDB
     const params = {
       TableName: "Users", // Change this to your DynamoDB table name

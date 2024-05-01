@@ -4,6 +4,7 @@ import { login } from "./auth/login";
 export const auth = async (event: any): Promise<APIGatewayProxyResult> => {
   const { action } = event.pathParameters || {};
 
+
   if (action === "login") {
     if (event.httpMethod !== "POST") {
       return {

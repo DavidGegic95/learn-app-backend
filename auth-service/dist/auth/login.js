@@ -18,7 +18,28 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dynamoDb = new aws_sdk_1.default.DynamoDB.DocumentClient();
 const login = (event) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { email, password } = event.body || "";
+        let email;
+        let password;
+        if (typeof event.body === "string") {
+            const eventObj = JSON.parse(event.body) || "";
+            email = eventObj.email;
+            password = eventObj.password;
+        }
+        else if (event.body &&
+            typeof event.body === "object" &&
+            "password" in event.body &&
+            "email" in event.body) {
+            email = event.body["email"];
+            password = event.body["password"];
+        }
+        else {
+            return {
+                statusCode: 400,
+                body: JSON.stringify({
+                    message: "Required request body, or corresponding paramaters missing",
+                }),
+            };
+        }
         // Check if the user exists in DynamoDB
         const params = {
             TableName: "Users", // Change this to your DynamoDB table name
