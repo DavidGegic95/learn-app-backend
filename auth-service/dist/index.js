@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.auth = void 0;
 const login_1 = require("./auth/login");
+const logout_1 = require("./auth/logout");
 const auth = (event) => __awaiter(void 0, void 0, void 0, function* () {
     const { action } = event.pathParameters || {};
     if (action === "login") {
@@ -29,7 +30,7 @@ const auth = (event) => __awaiter(void 0, void 0, void 0, function* () {
                 body: JSON.stringify({ message: "Method Not Allowed" }),
             };
         }
-        // return logout(event);
+        return (0, logout_1.logout)(event);
     }
     else if (action === "register") {
         if (event.httpMethod !== "POST") {

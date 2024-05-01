@@ -63,6 +63,22 @@ const login = (event) => __awaiter(void 0, void 0, void 0, function* () {
                 body: JSON.stringify({ message: "Invalid password" }),
             };
         }
+        const updateParams = {
+            TableName: "Users",
+            Key: {
+                email: email,
+            },
+            UpdateExpression: "SET #isActive = :isActive",
+            ConditionExpression: "attribute_exists(email)",
+            ExpressionAttributeNames: {
+                "#isActive": "isActive",
+            },
+            ExpressionAttributeValues: {
+                ":isActive": true,
+            },
+            ReturnValues: "ALL_NEW",
+        };
+        yield dynamoDb.update(updateParams).promise();
         // Password is correct, generate JWT token
         const token = jsonwebtoken_1.default.sign({ email: data.Item.email }, "your_secret_key", {
             expiresIn: "1h",

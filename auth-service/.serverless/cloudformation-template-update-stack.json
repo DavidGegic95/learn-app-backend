@@ -138,7 +138,8 @@
                 {
                   "Effect": "Allow",
                   "Action": [
-                    "dynamodb:GetItem"
+                    "dynamodb:GetItem",
+                    "dynamodb:UpdateItem"
                   ],
                   "Resource": "arn:aws:dynamodb:eu-central-1:590183937995:table/Users"
                 }
@@ -169,7 +170,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/auth-name/dev/1714570328050-2024-05-01T13:32:08.050Z/auth-name.zip"
+          "S3Key": "serverless/auth-name/dev/1714574908239-2024-05-01T14:48:28.239Z/auth-name.zip"
         },
         "Handler": "./dist/index.auth",
         "Runtime": "nodejs20.x",
@@ -192,14 +193,14 @@
         "AuthLogGroup"
       ]
     },
-    "AuthLambdaVersion4gevFNmmjNvFw4Yxvn74YF4L8XUVPoYdwC7XmIh5ys": {
+    "AuthLambdaVersionCFH9CE37fY0EE8VAjVCtScqgeAW9DnZK2wneprFD0": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AuthLambdaFunction"
         },
-        "CodeSha256": "QAfodtD4krx4YCjn6oVXeqEOWvLvRxOXoE2K5JDXvQc="
+        "CodeSha256": "+StEkrC5fDORYfkkvCKRwV7DCEmeI0cWLKPeS3lMSng="
       }
     },
     "ApiGatewayRestApi": {
@@ -332,7 +333,7 @@
         "AuthLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1714570310492": {
+    "ApiGatewayDeployment1714574892205": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -417,7 +418,7 @@
     "AuthLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AuthLambdaVersion4gevFNmmjNvFw4Yxvn74YF4L8XUVPoYdwC7XmIh5ys"
+        "Ref": "AuthLambdaVersionCFH9CE37fY0EE8VAjVCtScqgeAW9DnZK2wneprFD0"
       },
       "Export": {
         "Name": "sls-auth-name-dev-AuthLambdaFunctionQualifiedArn"

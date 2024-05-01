@@ -28,9 +28,9 @@ export const login = async (event: any): Promise<APIGatewayProxyResult> => {
         }),
       };
     }
-    // Check if the user exists in DynamoDB
+
     const params = {
-      TableName: "Users", // Change this to your DynamoDB table name
+      TableName: "Users",
       Key: {
         email: email,
       },
@@ -44,22 +44,35 @@ export const login = async (event: any): Promise<APIGatewayProxyResult> => {
       };
     }
 
-    // Perform password validation (example: using bcrypt)
-    const storedPassword = data.Item.password; // Assuming you store the hashed password in DynamoDB
-    // Example of password validation
+    const storedPassword = data.Item.password;
+
     if (password !== storedPassword) {
       return {
         statusCode: 401,
         body: JSON.stringify({ message: "Invalid password" }),
       };
     }
+    const updateParams = {
+      TableName: "Users",
+      Key: {
+        email: email,
+      },
+      UpdateExpression: "SET #isActive = :isActive",
+      ConditionExpression: "attribute_exists(email)",
+      ExpressionAttributeNames: {
+        "#isActive": "isActive",
+      },
+      ExpressionAttributeValues: {
+        ":isActive": true,
+      },
+      ReturnValues: "ALL_NEW",
+    };
+    await dynamoDb.update(updateParams).promise();
 
-    // Password is correct, generate JWT token
     const token = jwt.sign({ email: data.Item.email }, "your_secret_key", {
       expiresIn: "1h",
     });
 
-    // Return success with JWT token
     return {
       statusCode: 200,
       body: JSON.stringify({ message: "Login successful", token: token }),

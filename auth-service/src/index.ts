@@ -1,5 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { login } from "./auth/login";
+import { logout } from "./auth/logout";
 
 export const auth = async (event: any): Promise<APIGatewayProxyResult> => {
   const { action } = event.pathParameters || {};
@@ -20,7 +21,7 @@ export const auth = async (event: any): Promise<APIGatewayProxyResult> => {
         body: JSON.stringify({ message: "Method Not Allowed" }),
       };
     }
-    // return logout(event);
+    return logout(event);
   } else if (action === "register") {
     if (event.httpMethod !== "POST") {
       return {

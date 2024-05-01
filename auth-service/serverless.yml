@@ -7,6 +7,7 @@ provider:
     - Effect: Allow
       Action:
         - dynamodb:GetItem
+        - dynamodb:UpdateItem
       Resource: "arn:aws:dynamodb:eu-central-1:590183937995:table/Users"
 # plugins:
 #   - serverless-offline
