@@ -1,0 +1,38 @@
+service: auth-name
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: your-region
+
+plugins:
+  - serverless-offline
+
+functions:
+  auth:
+    handler: ./dist/index.auth
+    events:
+      - http:
+          path: auth/{action}
+          method:
+            - GET
+            - POST
+          cors: true
+          authorizer: aws_iam
+    environment:
+      DYNAMODB_TABLE: your-dynamodb-table-name
+
+resources:
+  Resources:
+    DynamoDbTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Users
+        AttributeDefinitions:
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
