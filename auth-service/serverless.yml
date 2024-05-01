@@ -1,11 +1,11 @@
 service: auth-name
 provider:
   name: aws
-  runtime: nodejs14.x
-  region: your-region
+  runtime: nodejs20.x
+  region: eu-central-1
 
-plugins:
-  - serverless-offline
+# plugins:
+#   - serverless-offline
 
 functions:
   auth:
@@ -13,13 +13,11 @@ functions:
     events:
       - http:
           path: auth/{action}
-          method:
-            - GET
-            - POST
+          method: "any"
           cors: true
           authorizer: aws_iam
     environment:
-      DYNAMODB_TABLE: your-dynamodb-table-name
+      DYNAMODB_TABLE: Users
 
 resources:
   Resources:
