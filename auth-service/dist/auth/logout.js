@@ -18,20 +18,20 @@ const dynamoDb = new aws_sdk_1.default.DynamoDB.DocumentClient();
 const logout = (event) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
-        const email = (_a = event.queryStringParameters) === null || _a === void 0 ? void 0 : _a.email;
-        if (!email) {
+        const id = (_a = event.queryStringParameters) === null || _a === void 0 ? void 0 : _a.id;
+        if (!id) {
             return {
                 statusCode: 400,
                 body: JSON.stringify({ message: "Email is required" }),
             };
         }
         const params = {
-            TableName: "Users",
+            TableName: "User",
             Key: {
-                email: email,
+                id: id,
             },
             UpdateExpression: "SET #isActive = :isActive",
-            ConditionExpression: "attribute_exists(email)",
+            ConditionExpression: "attribute_exists(id)",
             ExpressionAttributeNames: {
                 "#isActive": "isActive",
             },
@@ -53,7 +53,7 @@ const logout = (event) => __awaiter(void 0, void 0, void 0, function* () {
                     }),
                 };
             }
-            throw error; // re-throw other errors
+            throw error;
         }
         return {
             statusCode: 200,

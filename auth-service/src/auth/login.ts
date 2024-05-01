@@ -29,8 +29,16 @@ export const login = async (event: any): Promise<APIGatewayProxyResult> => {
       };
     }
 
+    // const params = {
+    //   TableName: "User",
+    //   IndexName: "EmailIndex", // Specify the name of the GSI
+    //   KeyConditionExpression: "email = :email",
+    //   ExpressionAttributeValues: {
+    //     ":email": email,
+    //   },
+    // };
     const params = {
-      TableName: "Users",
+      TableName: "Email",
       Key: {
         email: email,
       },
@@ -44,7 +52,15 @@ export const login = async (event: any): Promise<APIGatewayProxyResult> => {
       };
     }
 
-    const storedPassword = data.Item.password;
+    const paramsUser = {
+      TableName: "User",
+      Key: {
+        id: data.Item.id,
+      },
+    };
+    const user = await dynamoDb.get(paramsUser).promise();
+
+    const storedPassword = user?.Item?.password;
 
     if (password !== storedPassword) {
       return {
@@ -53,9 +69,9 @@ export const login = async (event: any): Promise<APIGatewayProxyResult> => {
       };
     }
     const updateParams = {
-      TableName: "Users",
+      TableName: "User",
       Key: {
-        email: email,
+        id: user?.Item?.id,
       },
       UpdateExpression: "SET #isActive = :isActive",
       ConditionExpression: "attribute_exists(email)",
@@ -67,7 +83,7 @@ export const login = async (event: any): Promise<APIGatewayProxyResult> => {
       },
       ReturnValues: "ALL_NEW",
     };
-    await dynamoDb.update(updateParams).promise();
+    const updatedUser = await dynamoDb.update(updateParams).promise();
 
     const token = jwt.sign({ email: data.Item.email }, "your_secret_key", {
       expiresIn: "1h",
@@ -75,7 +91,11 @@ export const login = async (event: any): Promise<APIGatewayProxyResult> => {
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: "Login successful", token: token }),
+      body: JSON.stringify({
+        message: "Login successful",
+        token: token,
+        user: updatedUser.Attributes,
+      }),
     };
   } catch (error) {
     console.error("Error logging in:", error);

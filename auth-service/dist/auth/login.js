@@ -17,6 +17,7 @@ const aws_sdk_1 = __importDefault(require("aws-sdk"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dynamoDb = new aws_sdk_1.default.DynamoDB.DocumentClient();
 const login = (event) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     try {
         let email;
         let password;
@@ -40,9 +41,16 @@ const login = (event) => __awaiter(void 0, void 0, void 0, function* () {
                 }),
             };
         }
-        // Check if the user exists in DynamoDB
+        // const params = {
+        //   TableName: "User",
+        //   IndexName: "EmailIndex", // Specify the name of the GSI
+        //   KeyConditionExpression: "email = :email",
+        //   ExpressionAttributeValues: {
+        //     ":email": email,
+        //   },
+        // };
         const params = {
-            TableName: "Users", // Change this to your DynamoDB table name
+            TableName: "Email",
             Key: {
                 email: email,
             },
@@ -54,9 +62,14 @@ const login = (event) => __awaiter(void 0, void 0, void 0, function* () {
                 body: JSON.stringify({ message: "User not found" }),
             };
         }
-        // Perform password validation (example: using bcrypt)
-        const storedPassword = data.Item.password; // Assuming you store the hashed password in DynamoDB
-        // Example of password validation
+        const paramsUser = {
+            TableName: "User",
+            Key: {
+                id: data.Item.id,
+            },
+        };
+        const user = yield dynamoDb.get(paramsUser).promise();
+        const storedPassword = (_a = user === null || user === void 0 ? void 0 : user.Item) === null || _a === void 0 ? void 0 : _a.password;
         if (password !== storedPassword) {
             return {
                 statusCode: 401,
@@ -64,9 +77,9 @@ const login = (event) => __awaiter(void 0, void 0, void 0, function* () {
             };
         }
         const updateParams = {
-            TableName: "Users",
+            TableName: "User",
             Key: {
-                email: email,
+                id: (_b = user === null || user === void 0 ? void 0 : user.Item) === null || _b === void 0 ? void 0 : _b.id,
             },
             UpdateExpression: "SET #isActive = :isActive",
             ConditionExpression: "attribute_exists(email)",
@@ -78,15 +91,17 @@ const login = (event) => __awaiter(void 0, void 0, void 0, function* () {
             },
             ReturnValues: "ALL_NEW",
         };
-        yield dynamoDb.update(updateParams).promise();
-        // Password is correct, generate JWT token
+        const updatedUser = yield dynamoDb.update(updateParams).promise();
         const token = jsonwebtoken_1.default.sign({ email: data.Item.email }, "your_secret_key", {
             expiresIn: "1h",
         });
-        // Return success with JWT token
         return {
             statusCode: 200,
-            body: JSON.stringify({ message: "Login successful", token: token }),
+            body: JSON.stringify({
+                message: "Login successful",
+                token: token,
+                user: updatedUser.Attributes,
+            }),
         };
     }
     catch (error) {

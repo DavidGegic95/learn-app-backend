@@ -7,9 +7,9 @@ export const logout = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   try {
-    const email = event.queryStringParameters?.email;
+    const id = event.queryStringParameters?.id;
 
-    if (!email) {
+    if (!id) {
       return {
         statusCode: 400,
         body: JSON.stringify({ message: "Email is required" }),
@@ -17,12 +17,12 @@ export const logout = async (
     }
 
     const params = {
-      TableName: "Users",
+      TableName: "User",
       Key: {
-        email: email,
+        id: id,
       },
       UpdateExpression: "SET #isActive = :isActive",
-      ConditionExpression: "attribute_exists(email)",
+      ConditionExpression: "attribute_exists(id)",
       ExpressionAttributeNames: {
         "#isActive": "isActive",
       },

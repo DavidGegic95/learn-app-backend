@@ -13,9 +13,16 @@
           "Effect": "Allow",
           "Action": [
             "dynamodb:GetItem",
-            "dynamodb:UpdateItem"
+            "dynamodb:UpdateItem",
+            "dynamodb:Scan",
+            "dynamodb:Query",
+            "dynamodb:PutItem",
+            "dynamodb:DeleteItem"
           ],
-          "Resource": "arn:aws:dynamodb:eu-central-1:590183937995:table/Users"
+          "Resource": [
+            "arn:aws:dynamodb:eu-central-1:590183937995:table/User",
+            "arn:aws:dynamodb:eu-central-1:590183937995:table/Email"
+          ]
         }
       ],
       "stage": "dev",
@@ -187,7 +194,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/auth-name/dev/1714574908239-2024-05-01T14:48:28.239Z/auth-name.zip"
+                "S3Key": "serverless/auth-name/dev/1714593968489-2024-05-01T20:06:08.489Z/auth-name.zip"
               },
               "Handler": "./dist/index.auth",
               "Runtime": "nodejs20.x",
@@ -196,7 +203,7 @@
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "DYNAMODB_TABLE": "Users"
+                  "DYNAMODB_TABLE": "User"
                 }
               },
               "Role": {
@@ -210,14 +217,14 @@
               "AuthLogGroup"
             ]
           },
-          "AuthLambdaVersionCFH9CE37fY0EE8VAjVCtScqgeAW9DnZK2wneprFD0": {
+          "AuthLambdaVersionk7pvJDEUcW1SdW1GpFVgd28X5ZHrp9SdsuKjEVgNc": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AuthLambdaFunction"
               },
-              "CodeSha256": "+StEkrC5fDORYfkkvCKRwV7DCEmeI0cWLKPeS3lMSng="
+              "CodeSha256": "k2DmMsrpScl8ZGhSyPgk3QSxmtFF/jBd+Zs5zLydYcA="
             }
           },
           "ApiGatewayRestApi": {
@@ -350,7 +357,7 @@
               "AuthLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1714574892205": {
+          "ApiGatewayDeployment1714593957829": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -400,10 +407,102 @@
               }
             }
           },
-          "DynamoDbTable": {
+          "UserDynamoDbTable": {
             "Type": "AWS::DynamoDB::Table",
             "Properties": {
-              "TableName": "Users",
+              "TableName": "User",
+              "AttributeDefinitions": [
+                {
+                  "AttributeName": "id",
+                  "AttributeType": "S"
+                }
+              ],
+              "KeySchema": [
+                {
+                  "AttributeName": "id",
+                  "KeyType": "HASH"
+                }
+              ],
+              "BillingMode": "PAY_PER_REQUEST"
+            }
+          },
+          "StudentDynamoDbTable": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+              "TableName": "Student",
+              "AttributeDefinitions": [
+                {
+                  "AttributeName": "id",
+                  "AttributeType": "S"
+                },
+                {
+                  "AttributeName": "userId",
+                  "AttributeType": "S"
+                }
+              ],
+              "KeySchema": [
+                {
+                  "AttributeName": "id",
+                  "KeyType": "HASH"
+                },
+                {
+                  "AttributeName": "userId",
+                  "KeyType": "RANGE"
+                }
+              ],
+              "BillingMode": "PAY_PER_REQUEST"
+            }
+          },
+          "TrainerDynamoDbTable": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+              "TableName": "Trainer",
+              "AttributeDefinitions": [
+                {
+                  "AttributeName": "id",
+                  "AttributeType": "S"
+                },
+                {
+                  "AttributeName": "userId",
+                  "AttributeType": "S"
+                }
+              ],
+              "KeySchema": [
+                {
+                  "AttributeName": "id",
+                  "KeyType": "HASH"
+                },
+                {
+                  "AttributeName": "userId",
+                  "KeyType": "RANGE"
+                }
+              ],
+              "BillingMode": "PAY_PER_REQUEST"
+            }
+          },
+          "SpecializationDynamoDbTable": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+              "TableName": "Specialization",
+              "AttributeDefinitions": [
+                {
+                  "AttributeName": "id",
+                  "AttributeType": "S"
+                }
+              ],
+              "KeySchema": [
+                {
+                  "AttributeName": "id",
+                  "KeyType": "HASH"
+                }
+              ],
+              "BillingMode": "PAY_PER_REQUEST"
+            }
+          },
+          "EmailDynamoDbTable": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+              "TableName": "Email",
               "AttributeDefinitions": [
                 {
                   "AttributeName": "email",
@@ -416,10 +515,7 @@
                   "KeyType": "HASH"
                 }
               ],
-              "ProvisionedThroughput": {
-                "ReadCapacityUnits": 1,
-                "WriteCapacityUnits": 1
-              }
+              "BillingMode": "PAY_PER_REQUEST"
             }
           }
         },
@@ -435,7 +531,7 @@
           "AuthLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AuthLambdaVersionCFH9CE37fY0EE8VAjVCtScqgeAW9DnZK2wneprFD0"
+              "Ref": "AuthLambdaVersionk7pvJDEUcW1SdW1GpFVgd28X5ZHrp9SdsuKjEVgNc"
             },
             "Export": {
               "Name": "sls-auth-name-dev-AuthLambdaFunctionQualifiedArn"
@@ -584,7 +680,7 @@
           }
         ],
         "environment": {
-          "DYNAMODB_TABLE": "Users"
+          "DYNAMODB_TABLE": "User"
         },
         "name": "auth-name-dev-auth",
         "package": {},
@@ -592,15 +688,107 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "AuthLambdaVersionCFH9CE37fY0EE8VAjVCtScqgeAW9DnZK2wneprFD0"
+        "versionLogicalId": "AuthLambdaVersionk7pvJDEUcW1SdW1GpFVgd28X5ZHrp9SdsuKjEVgNc"
       }
     },
     "resources": {
       "Resources": {
-        "DynamoDbTable": {
+        "UserDynamoDbTable": {
           "Type": "AWS::DynamoDB::Table",
           "Properties": {
-            "TableName": "Users",
+            "TableName": "User",
+            "AttributeDefinitions": [
+              {
+                "AttributeName": "id",
+                "AttributeType": "S"
+              }
+            ],
+            "KeySchema": [
+              {
+                "AttributeName": "id",
+                "KeyType": "HASH"
+              }
+            ],
+            "BillingMode": "PAY_PER_REQUEST"
+          }
+        },
+        "StudentDynamoDbTable": {
+          "Type": "AWS::DynamoDB::Table",
+          "Properties": {
+            "TableName": "Student",
+            "AttributeDefinitions": [
+              {
+                "AttributeName": "id",
+                "AttributeType": "S"
+              },
+              {
+                "AttributeName": "userId",
+                "AttributeType": "S"
+              }
+            ],
+            "KeySchema": [
+              {
+                "AttributeName": "id",
+                "KeyType": "HASH"
+              },
+              {
+                "AttributeName": "userId",
+                "KeyType": "RANGE"
+              }
+            ],
+            "BillingMode": "PAY_PER_REQUEST"
+          }
+        },
+        "TrainerDynamoDbTable": {
+          "Type": "AWS::DynamoDB::Table",
+          "Properties": {
+            "TableName": "Trainer",
+            "AttributeDefinitions": [
+              {
+                "AttributeName": "id",
+                "AttributeType": "S"
+              },
+              {
+                "AttributeName": "userId",
+                "AttributeType": "S"
+              }
+            ],
+            "KeySchema": [
+              {
+                "AttributeName": "id",
+                "KeyType": "HASH"
+              },
+              {
+                "AttributeName": "userId",
+                "KeyType": "RANGE"
+              }
+            ],
+            "BillingMode": "PAY_PER_REQUEST"
+          }
+        },
+        "SpecializationDynamoDbTable": {
+          "Type": "AWS::DynamoDB::Table",
+          "Properties": {
+            "TableName": "Specialization",
+            "AttributeDefinitions": [
+              {
+                "AttributeName": "id",
+                "AttributeType": "S"
+              }
+            ],
+            "KeySchema": [
+              {
+                "AttributeName": "id",
+                "KeyType": "HASH"
+              }
+            ],
+            "BillingMode": "PAY_PER_REQUEST"
+          }
+        },
+        "EmailDynamoDbTable": {
+          "Type": "AWS::DynamoDB::Table",
+          "Properties": {
+            "TableName": "Email",
             "AttributeDefinitions": [
               {
                 "AttributeName": "email",
@@ -613,10 +801,7 @@
                 "KeyType": "HASH"
               }
             ],
-            "ProvisionedThroughput": {
-              "ReadCapacityUnits": 1,
-              "WriteCapacityUnits": 1
-            }
+            "BillingMode": "PAY_PER_REQUEST"
           }
         }
       },
@@ -641,7 +826,7 @@
     "artifact": "/Users/korisnik234/Desktop/learn-app-backend/auth-service/.serverless/auth-name.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/auth-name/dev/1714574908239-2024-05-01T14:48:28.239Z",
+    "artifactDirectoryName": "serverless/auth-name/dev/1714593968489-2024-05-01T20:06:08.489Z",
     "artifact": "auth-name.zip"
   }
 }
