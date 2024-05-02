@@ -1,26 +1,12 @@
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-import AWS from "aws-sdk";
+import { APIGatewayProxyResult } from "aws-lambda";
 import jwt from "jsonwebtoken";
-
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
+import { findUser, updateUser } from "./repository/loginRepo";
+import { parseLoginBody } from "./utils/utils";
 
 export const login = async (event: any): Promise<APIGatewayProxyResult> => {
   try {
-    let email;
-    let password;
-    if (typeof event.body === "string") {
-      const eventObj = JSON.parse(event.body) || "";
-      email = eventObj.email;
-      password = eventObj.password;
-    } else if (
-      event.body &&
-      typeof event.body === "object" &&
-      "password" in event.body &&
-      "email" in event.body
-    ) {
-      email = event.body["email"];
-      password = event.body["password"];
-    } else {
+    const { email, password } = parseLoginBody(event);
+    if (!email || !password) {
       return {
         statusCode: 400,
         body: JSON.stringify({
@@ -28,38 +14,9 @@ export const login = async (event: any): Promise<APIGatewayProxyResult> => {
         }),
       };
     }
-
-    // const params = {
-    //   TableName: "Email",
-    //   Key: {
-    //     email: email,
-    //   },
-    // };
-    // const data = await dynamoDb.get(params).promise();
-
-    // if (!data.Item) {
-    //   return {
-    //     statusCode: 404,
-    //     body: JSON.stringify({ message: "User not found" }),
-    //   };
-    // }
-
-    const params = {
-      TableName: "User",
-      FilterExpression: "email = :email",
-      ExpressionAttributeValues: {
-        ":email": email,
-      },
-    };
-
-    // const paramsUser = {
-    //   TableName: "User",
-    //   Key: {
-    //     id: data.Item.id,
-    //   },
-    // };
-    const user = await dynamoDb.scan(params).promise();
-    if (user.Items && user.Items.length === 0) {
+    //
+    const user = await findUser(email);
+    if (!user || (user.Items && user.Items.length === 0)) {
       return {
         statusCode: 401,
         body: JSON.stringify({
@@ -67,35 +24,28 @@ export const login = async (event: any): Promise<APIGatewayProxyResult> => {
         }),
       };
     }
+    //
     const storedPassword = user.Items![0].password;
-
     if (password !== storedPassword) {
       return {
         statusCode: 401,
         body: JSON.stringify({ message: "Invalid password" }),
       };
     }
-    const updateParams = {
-      TableName: "User",
-      Key: {
-        id: user?.Items![0]?.id,
-      },
-      UpdateExpression: "SET #isActive = :isActive",
-      ConditionExpression: "attribute_exists(email)",
-      ExpressionAttributeNames: {
-        "#isActive": "isActive",
-      },
-      ExpressionAttributeValues: {
-        ":isActive": true,
-      },
-      ReturnValues: "ALL_NEW",
-    };
-    const updatedUser = await dynamoDb.update(updateParams).promise();
-
+    //
+    const updatedUser = await updateUser(user?.Items![0].id);
+    if (!updatedUser) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({
+          message: "Internal server error, unable to update active status",
+        }),
+      };
+    }
+    //
     const token = jwt.sign({ email: email }, "your_secret_key", {
       expiresIn: "1h",
     });
-
     return {
       statusCode: 200,
       body: JSON.stringify({

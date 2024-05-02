@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generatePass = exports.generateUserName = exports.parseBody = void 0;
+exports.parseLoginBody = exports.generatePass = exports.generateUserName = exports.parseBody = void 0;
 const uuid_1 = require("uuid");
 const parseBody = (event) => {
     if (typeof event.body === "string") {
@@ -64,3 +64,23 @@ const generatePass = () => {
     return (0, uuid_1.v4)().substring(0, 8);
 };
 exports.generatePass = generatePass;
+const parseLoginBody = (event) => {
+    let email;
+    let password;
+    if (typeof event.body === "string") {
+        const eventObj = JSON.parse(event.body) || "";
+        email = eventObj.email;
+        password = eventObj.password;
+        return { email, password };
+    }
+    else if (event.body &&
+        typeof event.body === "object" &&
+        "password" in event.body &&
+        "email" in event.body) {
+        email = event.body["email"];
+        password = event.body["password"];
+        return { email: email, password: password };
+    }
+    return { email: "", password: "" };
+};
+exports.parseLoginBody = parseLoginBody;

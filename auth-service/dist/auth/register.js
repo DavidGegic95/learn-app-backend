@@ -14,13 +14,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.register = void 0;
 const aws_sdk_1 = __importDefault(require("aws-sdk"));
-const utils_1 = require("./utils");
+const utils_1 = require("./utils/utils");
 const uuid_1 = require("uuid");
+const registerRepo_1 = require("./repository/registerRepo");
 const dynamoDb = new aws_sdk_1.default.DynamoDB.DocumentClient();
 const register = (event) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const requestBody = (0, utils_1.parseBody)(event);
-        const userId = (0, uuid_1.v4)();
         if (!requestBody) {
             return {
                 statusCode: 400,
@@ -29,100 +29,35 @@ const register = (event) => __awaiter(void 0, void 0, void 0, function* () {
                 }),
             };
         }
-        const userName = (0, utils_1.generateUserName)(requestBody.firstName, requestBody.lastName);
-        const password = (0, utils_1.generatePass)();
-        const params = {
-            TableName: "User",
-            Item: {
-                id: userId,
-                firstName: requestBody.firstName,
-                lastName: requestBody.lastName,
-                email: requestBody.email,
-                isActive: false,
-                username: userName,
-                photo: "",
-                password: password,
-            },
-        };
-        const studentParams = {
-            TableName: "Student",
-            Item: {
-                id: (0, uuid_1.v4)(),
-                userId: userId,
-                dateOfBirth: requestBody.dateOfBirth || "",
-                address: requestBody.address || "",
-            },
-        };
-        const emailParams = {
-            TableName: "Email",
-            Item: {
-                email: requestBody.email,
-                id: userId,
-            },
-        };
-        const specializationParams = {
-            TableName: "Specialization",
-            FilterExpression: "specialization = :specialization",
-            ExpressionAttributeValues: {
-                ":specialization": requestBody.specialization,
-            },
-        };
-        try {
-            const user = yield dynamoDb.put(params).promise();
-            if (requestBody.role === "student") {
-                yield Promise.all([
-                    dynamoDb.put(studentParams).promise(),
-                    dynamoDb.put(emailParams).promise(),
-                ]);
-            }
-            else {
-                const spec = yield dynamoDb.scan(specializationParams).promise();
-                let specId = "";
-                if (spec.Items) {
-                    const specObj = spec.Items[0];
-                    if (specObj) {
-                        specId = specObj.id;
-                    }
-                    else {
-                        specId = (0, uuid_1.v4)();
-                        const specializationParams = {
-                            TableName: "Specialization",
-                            Item: {
-                                id: specId,
-                                specialization: requestBody.specialization,
-                            },
-                        };
-                        yield dynamoDb.put(specializationParams).promise();
-                    }
-                }
-                const trainerParams = {
-                    TableName: "Trainer",
-                    Item: {
-                        id: (0, uuid_1.v4)(),
-                        userId: userId,
-                        specializationId: specId,
-                    },
-                };
-                yield Promise.all([
-                    dynamoDb.put(emailParams).promise(),
-                    dynamoDb.put(trainerParams).promise(),
-                ]);
-            }
+        const existingUser = yield (0, registerRepo_1.checkEmail)(requestBody.email);
+        if (!existingUser) {
             return {
-                statusCode: 200,
+                statusCode: 409,
                 body: JSON.stringify({
-                    message: "User added successfully",
-                    username: userName,
-                    password: password,
+                    message: `User with email ${requestBody.email} already exist.`,
                 }),
             };
         }
-        catch (error) {
+        const userName = (0, utils_1.generateUserName)(requestBody.firstName, requestBody.lastName);
+        const password = (0, utils_1.generatePass)();
+        const userId = (0, uuid_1.v4)();
+        //
+        const user = yield (0, registerRepo_1.registerUser)(userId, userName, password, requestBody);
+        if (!user) {
             return {
                 statusCode: 500,
                 body: JSON.stringify({ message: "Failed to add user" }),
             };
         }
+        //
+        return {
+            statusCode: 200,
+            body: JSON.stringify({
+                message: "User added successfully",
+                username: userName,
+                password: password,
+            }),
+        };
     }
     catch (error) {
         console.error("Error logging in:", error);

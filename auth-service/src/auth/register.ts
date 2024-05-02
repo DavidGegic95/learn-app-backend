@@ -1,19 +1,19 @@
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
+import { APIGatewayProxyResult } from "aws-lambda";
 import AWS from "aws-sdk";
 import {
   RequestBody,
   generatePass,
   generateUserName,
   parseBody,
-} from "./utils";
+} from "./utils/utils";
 import { v4 as uuidv4 } from "uuid";
+import { checkEmail, registerUser } from "./repository/registerRepo";
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 export const register = async (event: any): Promise<APIGatewayProxyResult> => {
   try {
     const requestBody: RequestBody | null = parseBody(event);
-    const userId = uuidv4();
     if (!requestBody) {
       return {
         statusCode: 400,
@@ -22,102 +22,42 @@ export const register = async (event: any): Promise<APIGatewayProxyResult> => {
         }),
       };
     }
+
+    const existingUser = await checkEmail(requestBody.email);
+
+    if (!existingUser) {
+      return {
+        statusCode: 409,
+        body: JSON.stringify({
+          message: `User with email ${requestBody.email} already exist.`,
+        }),
+      };
+    }
+
     const userName = generateUserName(
       requestBody.firstName,
       requestBody.lastName
     );
     const password = generatePass();
-    const params = {
-      TableName: "User",
-      Item: {
-        id: userId,
-        firstName: requestBody.firstName,
-        lastName: requestBody.lastName,
-        email: requestBody.email,
-        isActive: false,
-        username: userName,
-        photo: "",
-        password: password,
-      },
-    };
-    const studentParams = {
-      TableName: "Student",
-      Item: {
-        id: uuidv4(),
-        userId: userId,
-        dateOfBirth: requestBody.dateOfBirth || "",
-        address: requestBody.address || "",
-      },
-    };
+    const userId = uuidv4();
 
-    const emailParams = {
-      TableName: "Email",
-      Item: {
-        email: requestBody.email,
-        id: userId,
-      },
-    };
-    const specializationParams = {
-      TableName: "Specialization",
-      FilterExpression: "specialization = :specialization",
-      ExpressionAttributeValues: {
-        ":specialization": requestBody.specialization,
-      },
-    };
-
-    try {
-      const user = await dynamoDb.put(params).promise();
-      if (requestBody.role === "student") {
-        await Promise.all([
-          dynamoDb.put(studentParams).promise(),
-          dynamoDb.put(emailParams).promise(),
-        ]);
-      } else {
-        const spec = await dynamoDb.scan(specializationParams).promise();
-        let specId = "";
-        if (spec.Items) {
-          const specObj = spec.Items[0];
-          if (specObj) {
-            specId = specObj.id;
-          } else {
-            specId = uuidv4();
-            const specializationParams = {
-              TableName: "Specialization",
-              Item: {
-                id: specId,
-                specialization: requestBody.specialization,
-              },
-            };
-            await dynamoDb.put(specializationParams).promise();
-          }
-        }
-        const trainerParams = {
-          TableName: "Trainer",
-          Item: {
-            id: uuidv4(),
-            userId: userId,
-            specializationId: specId,
-          },
-        };
-        await Promise.all([
-          dynamoDb.put(emailParams).promise(),
-          dynamoDb.put(trainerParams).promise(),
-        ]);
-      }
-      return {
-        statusCode: 200,
-        body: JSON.stringify({
-          message: "User added successfully",
-          username: userName,
-          password: password,
-        }),
-      };
-    } catch (error) {
+    //
+    const user = await registerUser(userId, userName, password, requestBody);
+    if (!user) {
       return {
         statusCode: 500,
         body: JSON.stringify({ message: "Failed to add user" }),
       };
     }
+    //
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: "User added successfully",
+        username: userName,
+        password: password,
+      }),
+    };
   } catch (error) {
     console.error("Error logging in:", error);
     return {
