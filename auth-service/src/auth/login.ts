@@ -9,6 +9,9 @@ export const login = async (event: any): Promise<APIGatewayProxyResult> => {
     if (!email || !password) {
       return {
         statusCode: 400,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
         body: JSON.stringify({
           message: "Required request body, or corresponding paramaters missing",
         }),
@@ -19,6 +22,9 @@ export const login = async (event: any): Promise<APIGatewayProxyResult> => {
     if (!user || (user.Items && user.Items.length === 0)) {
       return {
         statusCode: 401,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
         body: JSON.stringify({
           message: `User with email ${email} not found`,
         }),
@@ -29,6 +35,9 @@ export const login = async (event: any): Promise<APIGatewayProxyResult> => {
     if (password !== storedPassword) {
       return {
         statusCode: 401,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
         body: JSON.stringify({ message: "Invalid password" }),
       };
     }
@@ -37,6 +46,9 @@ export const login = async (event: any): Promise<APIGatewayProxyResult> => {
     if (!updatedUser) {
       return {
         statusCode: 500,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
         body: JSON.stringify({
           message: "Internal server error, unable to update active status",
         }),
@@ -48,6 +60,9 @@ export const login = async (event: any): Promise<APIGatewayProxyResult> => {
     });
     return {
       statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
       body: JSON.stringify({
         message: "Login successful",
         token: token,
@@ -58,6 +73,9 @@ export const login = async (event: any): Promise<APIGatewayProxyResult> => {
     console.error("Error logging in:", error);
     return {
       statusCode: 500,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
       body: JSON.stringify({ message: "Internal server error" }),
     };
   }

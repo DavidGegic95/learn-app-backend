@@ -17,6 +17,9 @@ export const register = async (event: any): Promise<APIGatewayProxyResult> => {
     if (!requestBody) {
       return {
         statusCode: 400,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
         body: JSON.stringify({
           message: "Required request body, or corresponding paramaters missing",
         }),
@@ -28,6 +31,9 @@ export const register = async (event: any): Promise<APIGatewayProxyResult> => {
     if (!existingUser) {
       return {
         statusCode: 409,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
         body: JSON.stringify({
           message: `User with email ${requestBody.email} already exist.`,
         }),
@@ -46,6 +52,9 @@ export const register = async (event: any): Promise<APIGatewayProxyResult> => {
     if (!user) {
       return {
         statusCode: 500,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
         body: JSON.stringify({ message: "Failed to add user" }),
       };
     }

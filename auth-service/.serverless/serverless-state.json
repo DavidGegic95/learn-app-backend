@@ -196,7 +196,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/auth-name/dev/1714667229578-2024-05-02T16:27:09.578Z/auth-name.zip"
+                "S3Key": "serverless/auth-name/dev/1714675137439-2024-05-02T18:38:57.439Z/auth-name.zip"
               },
               "Handler": "./dist/index.auth",
               "Runtime": "nodejs20.x",
@@ -219,14 +219,14 @@
               "AuthLogGroup"
             ]
           },
-          "AuthLambdaVersioni5GIYIUXOAhp1PsSKhnmIFPnhZLuYu2SffN7skXjqyI": {
+          "AuthLambdaVersionVRQlzoQcfHJEEgrR2xzFT56MgtqYM0eHel6JA9c3U": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AuthLambdaFunction"
               },
-              "CodeSha256": "a+yO2Ts8kCJlJNpHq3lSsywno+tKMKLSZ1+0nBW6zQA="
+              "CodeSha256": "9U6ESWkhoazJp54b5kAx6ZjAl7i+r8HKrtQTISYVAxI="
             }
           },
           "ApiGatewayRestApi": {
@@ -359,7 +359,7 @@
               "AuthLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1714667220458": {
+          "ApiGatewayDeployment1714675128832": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -514,7 +514,7 @@
           "AuthLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AuthLambdaVersioni5GIYIUXOAhp1PsSKhnmIFPnhZLuYu2SffN7skXjqyI"
+              "Ref": "AuthLambdaVersionVRQlzoQcfHJEEgrR2xzFT56MgtqYM0eHel6JA9c3U"
             },
             "Export": {
               "Name": "sls-auth-name-dev-AuthLambdaFunctionQualifiedArn"
@@ -671,7 +671,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "AuthLambdaVersioni5GIYIUXOAhp1PsSKhnmIFPnhZLuYu2SffN7skXjqyI"
+        "versionLogicalId": "AuthLambdaVersionVRQlzoQcfHJEEgrR2xzFT56MgtqYM0eHel6JA9c3U"
       }
     },
     "resources": {
@@ -790,7 +790,7 @@
     "artifact": "/Users/korisnik234/Desktop/learn-app-backend/auth-service/.serverless/auth-name.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/auth-name/dev/1714667229578-2024-05-02T16:27:09.578Z",
+    "artifactDirectoryName": "serverless/auth-name/dev/1714675137439-2024-05-02T18:38:57.439Z",
     "artifact": "auth-name.zip"
   }
 }

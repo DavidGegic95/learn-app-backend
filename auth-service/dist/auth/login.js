@@ -22,6 +22,9 @@ const login = (event) => __awaiter(void 0, void 0, void 0, function* () {
         if (!email || !password) {
             return {
                 statusCode: 400,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                },
                 body: JSON.stringify({
                     message: "Required request body, or corresponding paramaters missing",
                 }),
@@ -32,6 +35,9 @@ const login = (event) => __awaiter(void 0, void 0, void 0, function* () {
         if (!user || (user.Items && user.Items.length === 0)) {
             return {
                 statusCode: 401,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                },
                 body: JSON.stringify({
                     message: `User with email ${email} not found`,
                 }),
@@ -42,6 +48,9 @@ const login = (event) => __awaiter(void 0, void 0, void 0, function* () {
         if (password !== storedPassword) {
             return {
                 statusCode: 401,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                },
                 body: JSON.stringify({ message: "Invalid password" }),
             };
         }
@@ -50,6 +59,9 @@ const login = (event) => __awaiter(void 0, void 0, void 0, function* () {
         if (!updatedUser) {
             return {
                 statusCode: 500,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                },
                 body: JSON.stringify({
                     message: "Internal server error, unable to update active status",
                 }),
@@ -61,6 +73,9 @@ const login = (event) => __awaiter(void 0, void 0, void 0, function* () {
         });
         return {
             statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            },
             body: JSON.stringify({
                 message: "Login successful",
                 token: token,
@@ -72,6 +87,9 @@ const login = (event) => __awaiter(void 0, void 0, void 0, function* () {
         console.error("Error logging in:", error);
         return {
             statusCode: 500,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            },
             body: JSON.stringify({ message: "Internal server error" }),
         };
     }

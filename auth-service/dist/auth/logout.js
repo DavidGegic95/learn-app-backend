@@ -23,6 +23,9 @@ const logout = (event) => __awaiter(void 0, void 0, void 0, function* () {
         if (!id) {
             return {
                 statusCode: 400,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                },
                 body: JSON.stringify({ message: "Email is required" }),
             };
         }
@@ -30,6 +33,9 @@ const logout = (event) => __awaiter(void 0, void 0, void 0, function* () {
         if (!updatedUser) {
             return {
                 statusCode: 400,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                },
                 body: JSON.stringify({
                     message: "Bad request, user with id does not exist.",
                 }),
@@ -37,6 +43,9 @@ const logout = (event) => __awaiter(void 0, void 0, void 0, function* () {
         }
         return {
             statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            },
             body: JSON.stringify({
                 message: "Logout successful",
             }),
@@ -46,6 +55,9 @@ const logout = (event) => __awaiter(void 0, void 0, void 0, function* () {
         console.error("Error logging out:", error);
         return {
             statusCode: 500,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            },
             body: JSON.stringify({ message: "Internal server error" }),
         };
     }

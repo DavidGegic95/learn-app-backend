@@ -24,6 +24,9 @@ const register = (event) => __awaiter(void 0, void 0, void 0, function* () {
         if (!requestBody) {
             return {
                 statusCode: 400,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                },
                 body: JSON.stringify({
                     message: "Required request body, or corresponding paramaters missing",
                 }),
@@ -33,6 +36,9 @@ const register = (event) => __awaiter(void 0, void 0, void 0, function* () {
         if (!existingUser) {
             return {
                 statusCode: 409,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                },
                 body: JSON.stringify({
                     message: `User with email ${requestBody.email} already exist.`,
                 }),
@@ -46,6 +52,9 @@ const register = (event) => __awaiter(void 0, void 0, void 0, function* () {
         if (!user) {
             return {
                 statusCode: 500,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                },
                 body: JSON.stringify({ message: "Failed to add user" }),
             };
         }

@@ -12,6 +12,9 @@ export const logout = async (
     if (!id) {
       return {
         statusCode: 400,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
         body: JSON.stringify({ message: "Email is required" }),
       };
     }
@@ -19,6 +22,9 @@ export const logout = async (
     if (!updatedUser) {
       return {
         statusCode: 400,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
         body: JSON.stringify({
           message: "Bad request, user with id does not exist.",
         }),
@@ -27,6 +33,9 @@ export const logout = async (
 
     return {
       statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
       body: JSON.stringify({
         message: "Logout successful",
       }),
@@ -35,6 +44,9 @@ export const logout = async (
     console.error("Error logging out:", error);
     return {
       statusCode: 500,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
       body: JSON.stringify({ message: "Internal server error" }),
     };
   }
