@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.auth = void 0;
 const login_1 = require("./auth/login");
 const logout_1 = require("./auth/logout");
+const register_1 = require("./auth/register");
 const auth = (event) => __awaiter(void 0, void 0, void 0, function* () {
     const { action } = event.pathParameters || {};
     if (action === "login") {
@@ -39,7 +40,7 @@ const auth = (event) => __awaiter(void 0, void 0, void 0, function* () {
                 body: JSON.stringify({ message: "Method Not Allowed" }),
             };
         }
-        // return register(event);
+        return (0, register_1.register)(event);
     }
     return {
         statusCode: 404,

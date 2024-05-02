@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.logout = void 0;
 const aws_sdk_1 = __importDefault(require("aws-sdk"));
+const logoutRepo_1 = require("./repository/logoutRepo");
 const dynamoDb = new aws_sdk_1.default.DynamoDB.DocumentClient();
 const logout = (event) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
@@ -25,41 +26,19 @@ const logout = (event) => __awaiter(void 0, void 0, void 0, function* () {
                 body: JSON.stringify({ message: "Email is required" }),
             };
         }
-        const params = {
-            TableName: "User",
-            Key: {
-                id: id,
-            },
-            UpdateExpression: "SET #isActive = :isActive",
-            ConditionExpression: "attribute_exists(id)",
-            ExpressionAttributeNames: {
-                "#isActive": "isActive",
-            },
-            ExpressionAttributeValues: {
-                ":isActive": false,
-            },
-            ReturnValues: "ALL_NEW",
-        };
-        let updatedUser;
-        try {
-            updatedUser = yield dynamoDb.update(params).promise();
-        }
-        catch (error) {
-            if (error.code === "ConditionalCheckFailedException") {
-                return {
-                    statusCode: 400,
-                    body: JSON.stringify({
-                        message: "Bad request, user with email does not exist.",
-                    }),
-                };
-            }
-            throw error;
+        const updatedUser = yield (0, logoutRepo_1.logoutUserRepo)(id);
+        if (!updatedUser) {
+            return {
+                statusCode: 400,
+                body: JSON.stringify({
+                    message: "Bad request, user with id does not exist.",
+                }),
+            };
         }
         return {
             statusCode: 200,
             body: JSON.stringify({
                 message: "Logout successful",
-                user: updatedUser.Attributes,
             }),
         };
     }

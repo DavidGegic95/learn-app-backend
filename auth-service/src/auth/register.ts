@@ -1,87 +1,128 @@
-// import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-// import AWS from "aws-sdk";
-// import jwt from "jsonwebtoken";
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
+import AWS from "aws-sdk";
+import {
+  RequestBody,
+  generatePass,
+  generateUserName,
+  parseBody,
+} from "./utils";
+import { v4 as uuidv4 } from "uuid";
 
-// const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-// export const register = async (event: any): Promise<APIGatewayProxyResult> => {
-//   try {
-//     let email;
-//     let password;
-//     if (typeof event.body === "string") {
-//       const eventObj = JSON.parse(event.body) || "";
-//       email = eventObj.email;
-//       password = eventObj.password;
-//     } else if (
-//       event.body &&
-//       typeof event.body === "object" &&
-//       "password" in event.body &&
-//       "email" in event.body
-//     ) {
-//       email = event.body["email"];
-//       password = event.body["password"];
-//     } else {
-//       return {
-//         statusCode: 400,
-//         body: JSON.stringify({
-//           message: "Required request body, or corresponding paramaters missing",
-//         }),
-//       };
-//     }
+export const register = async (event: any): Promise<APIGatewayProxyResult> => {
+  try {
+    const requestBody: RequestBody | null = parseBody(event);
+    const userId = uuidv4();
+    if (!requestBody) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          message: "Required request body, or corresponding paramaters missing",
+        }),
+      };
+    }
+    const userName = generateUserName(
+      requestBody.firstName,
+      requestBody.lastName
+    );
+    const password = generatePass();
+    const params = {
+      TableName: "User",
+      Item: {
+        id: userId,
+        firstName: requestBody.firstName,
+        lastName: requestBody.lastName,
+        email: requestBody.email,
+        isActive: false,
+        username: userName,
+        photo: "",
+        password: password,
+      },
+    };
+    const studentParams = {
+      TableName: "Student",
+      Item: {
+        id: uuidv4(),
+        userId: userId,
+        dateOfBirth: requestBody.dateOfBirth || "",
+        address: requestBody.address || "",
+      },
+    };
 
-//     const params = {
-//       TableName: "User",
-//       Key: {
-//         email: email,
-//       },
-//     };
-//     const data = await dynamoDb.get(params).promise();
+    const emailParams = {
+      TableName: "Email",
+      Item: {
+        email: requestBody.email,
+        id: userId,
+      },
+    };
+    const specializationParams = {
+      TableName: "Specialization",
+      FilterExpression: "specialization = :specialization",
+      ExpressionAttributeValues: {
+        ":specialization": requestBody.specialization,
+      },
+    };
 
-//     if (!data.Item) {
-//       return {
-//         statusCode: 404,
-//         body: JSON.stringify({ message: "User not found" }),
-//       };
-//     }
-
-//     const storedPassword = data.Item.password;
-
-//     if (password !== storedPassword) {
-//       return {
-//         statusCode: 401,
-//         body: JSON.stringify({ message: "Invalid password" }),
-//       };
-//     }
-//     const updateParams = {
-//       TableName: "User",
-//       Key: {
-//         email: email,
-//       },
-//       UpdateExpression: "SET #isActive = :isActive",
-//       ConditionExpression: "attribute_exists(email)",
-//       ExpressionAttributeNames: {
-//         "#isActive": "isActive",
-//       },
-//       ExpressionAttributeValues: {
-//         ":isActive": true,
-//       },
-//       ReturnValues: "ALL_NEW",
-//     };
-//     await dynamoDb.update(updateParams).promise();
-
-//     const token = jwt.sign({ email: data.Item.email }, "your_secret_key", {
-//       expiresIn: "1h",
-//     });
-
-//     return {
-//       statusCode: 200,
-//       body: JSON.stringify({ message: "Login successful", token: token }),
-//     };
-//   } catch (error) {
-//     console.error("Error logging in:", error);
-//     return {
-//       statusCode: 500,
-//       body: JSON.stringify({ message: "Internal server error" }),
-//     };
-//   }
-// };
+    try {
+      const user = await dynamoDb.put(params).promise();
+      if (requestBody.role === "student") {
+        await Promise.all([
+          dynamoDb.put(studentParams).promise(),
+          dynamoDb.put(emailParams).promise(),
+        ]);
+      } else {
+        const spec = await dynamoDb.scan(specializationParams).promise();
+        let specId = "";
+        if (spec.Items) {
+          const specObj = spec.Items[0];
+          if (specObj) {
+            specId = specObj.id;
+          } else {
+            specId = uuidv4();
+            const specializationParams = {
+              TableName: "Specialization",
+              Item: {
+                id: specId,
+                specialization: requestBody.specialization,
+              },
+            };
+            await dynamoDb.put(specializationParams).promise();
+          }
+        }
+        const trainerParams = {
+          TableName: "Trainer",
+          Item: {
+            id: uuidv4(),
+            userId: userId,
+            specializationId: specId,
+          },
+        };
+        await Promise.all([
+          dynamoDb.put(emailParams).promise(),
+          dynamoDb.put(trainerParams).promise(),
+        ]);
+      }
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          message: "User added successfully",
+          username: userName,
+          password: password,
+        }),
+      };
+    } catch (error) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ message: "Failed to add user" }),
+      };
+    }
+  } catch (error) {
+    console.error("Error logging in:", error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: "Internal server error" }),
+    };
+  }
+};

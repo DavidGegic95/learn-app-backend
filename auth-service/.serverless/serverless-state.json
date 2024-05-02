@@ -21,7 +21,10 @@
           ],
           "Resource": [
             "arn:aws:dynamodb:eu-central-1:590183937995:table/User",
-            "arn:aws:dynamodb:eu-central-1:590183937995:table/Email"
+            "arn:aws:dynamodb:eu-central-1:590183937995:table/Email",
+            "arn:aws:dynamodb:eu-central-1:590183937995:table/Student",
+            "arn:aws:dynamodb:eu-central-1:590183937995:table/Trainer",
+            "arn:aws:dynamodb:eu-central-1:590183937995:table/Specialization"
           ]
         }
       ],
@@ -194,7 +197,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/auth-name/dev/1714593968489-2024-05-01T20:06:08.489Z/auth-name.zip"
+                "S3Key": "serverless/auth-name/dev/1714657826432-2024-05-02T13:50:26.432Z/auth-name.zip"
               },
               "Handler": "./dist/index.auth",
               "Runtime": "nodejs20.x",
@@ -217,14 +220,14 @@
               "AuthLogGroup"
             ]
           },
-          "AuthLambdaVersionk7pvJDEUcW1SdW1GpFVgd28X5ZHrp9SdsuKjEVgNc": {
+          "AuthLambdaVersionJiNqhWB0OWGVrvMx6sSHSSZ69UrQbeQCfwYpn1zs": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AuthLambdaFunction"
               },
-              "CodeSha256": "k2DmMsrpScl8ZGhSyPgk3QSxmtFF/jBd+Zs5zLydYcA="
+              "CodeSha256": "7GRLncS+DwPBK0U4uHb7UjMA0R7erq2rX7af1dguVxM="
             }
           },
           "ApiGatewayRestApi": {
@@ -357,7 +360,7 @@
               "AuthLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1714593957829": {
+          "ApiGatewayDeployment1714657817493": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -531,7 +534,7 @@
           "AuthLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AuthLambdaVersionk7pvJDEUcW1SdW1GpFVgd28X5ZHrp9SdsuKjEVgNc"
+              "Ref": "AuthLambdaVersionJiNqhWB0OWGVrvMx6sSHSSZ69UrQbeQCfwYpn1zs"
             },
             "Export": {
               "Name": "sls-auth-name-dev-AuthLambdaFunctionQualifiedArn"
@@ -688,7 +691,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "AuthLambdaVersionk7pvJDEUcW1SdW1GpFVgd28X5ZHrp9SdsuKjEVgNc"
+        "versionLogicalId": "AuthLambdaVersionJiNqhWB0OWGVrvMx6sSHSSZ69UrQbeQCfwYpn1zs"
       }
     },
     "resources": {
@@ -826,7 +829,7 @@
     "artifact": "/Users/korisnik234/Desktop/learn-app-backend/auth-service/.serverless/auth-name.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/auth-name/dev/1714593968489-2024-05-01T20:06:08.489Z",
+    "artifactDirectoryName": "serverless/auth-name/dev/1714657826432-2024-05-02T13:50:26.432Z",
     "artifact": "auth-name.zip"
   }
 }

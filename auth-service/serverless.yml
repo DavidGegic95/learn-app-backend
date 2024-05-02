@@ -15,6 +15,9 @@ provider:
       Resource:
         - "arn:aws:dynamodb:eu-central-1:590183937995:table/User"
         - "arn:aws:dynamodb:eu-central-1:590183937995:table/Email"
+        - "arn:aws:dynamodb:eu-central-1:590183937995:table/Student"
+        - "arn:aws:dynamodb:eu-central-1:590183937995:table/Trainer"
+        - "arn:aws:dynamodb:eu-central-1:590183937995:table/Specialization"
 
 functions:
   auth:

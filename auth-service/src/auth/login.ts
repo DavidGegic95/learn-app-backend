@@ -30,37 +30,44 @@ export const login = async (event: any): Promise<APIGatewayProxyResult> => {
     }
 
     // const params = {
-    //   TableName: "User",
-    //   IndexName: "EmailIndex", // Specify the name of the GSI
-    //   KeyConditionExpression: "email = :email",
-    //   ExpressionAttributeValues: {
-    //     ":email": email,
+    //   TableName: "Email",
+    //   Key: {
+    //     email: email,
     //   },
     // };
+    // const data = await dynamoDb.get(params).promise();
+
+    // if (!data.Item) {
+    //   return {
+    //     statusCode: 404,
+    //     body: JSON.stringify({ message: "User not found" }),
+    //   };
+    // }
+
     const params = {
-      TableName: "Email",
-      Key: {
-        email: email,
+      TableName: "User",
+      FilterExpression: "email = :email",
+      ExpressionAttributeValues: {
+        ":email": email,
       },
     };
-    const data = await dynamoDb.get(params).promise();
 
-    if (!data.Item) {
+    // const paramsUser = {
+    //   TableName: "User",
+    //   Key: {
+    //     id: data.Item.id,
+    //   },
+    // };
+    const user = await dynamoDb.scan(params).promise();
+    if (user.Items && user.Items.length === 0) {
       return {
-        statusCode: 404,
-        body: JSON.stringify({ message: "User not found" }),
+        statusCode: 401,
+        body: JSON.stringify({
+          message: `User with email ${email} not found`,
+        }),
       };
     }
-
-    const paramsUser = {
-      TableName: "User",
-      Key: {
-        id: data.Item.id,
-      },
-    };
-    const user = await dynamoDb.get(paramsUser).promise();
-
-    const storedPassword = user?.Item?.password;
+    const storedPassword = user.Items![0].password;
 
     if (password !== storedPassword) {
       return {
@@ -71,7 +78,7 @@ export const login = async (event: any): Promise<APIGatewayProxyResult> => {
     const updateParams = {
       TableName: "User",
       Key: {
-        id: user?.Item?.id,
+        id: user?.Items![0]?.id,
       },
       UpdateExpression: "SET #isActive = :isActive",
       ConditionExpression: "attribute_exists(email)",
@@ -85,7 +92,7 @@ export const login = async (event: any): Promise<APIGatewayProxyResult> => {
     };
     const updatedUser = await dynamoDb.update(updateParams).promise();
 
-    const token = jwt.sign({ email: data.Item.email }, "your_secret_key", {
+    const token = jwt.sign({ email: email }, "your_secret_key", {
       expiresIn: "1h",
     });
 

@@ -1,5 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import AWS from "aws-sdk";
+import { logoutUserRepo } from "./repository/logoutRepo";
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
@@ -8,50 +9,26 @@ export const logout = async (
 ): Promise<APIGatewayProxyResult> => {
   try {
     const id = event.queryStringParameters?.id;
-
     if (!id) {
       return {
         statusCode: 400,
         body: JSON.stringify({ message: "Email is required" }),
       };
     }
-
-    const params = {
-      TableName: "User",
-      Key: {
-        id: id,
-      },
-      UpdateExpression: "SET #isActive = :isActive",
-      ConditionExpression: "attribute_exists(id)",
-      ExpressionAttributeNames: {
-        "#isActive": "isActive",
-      },
-      ExpressionAttributeValues: {
-        ":isActive": false,
-      },
-      ReturnValues: "ALL_NEW",
-    };
-
-    let updatedUser;
-    try {
-      updatedUser = await dynamoDb.update(params).promise();
-    } catch (error: any) {
-      if (error.code === "ConditionalCheckFailedException") {
-        return {
-          statusCode: 400,
-          body: JSON.stringify({
-            message: "Bad request, user with email does not exist.",
-          }),
-        };
-      }
-      throw error;
+    const updatedUser = await logoutUserRepo(id);
+    if (!updatedUser) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          message: "Bad request, user with id does not exist.",
+        }),
+      };
     }
 
     return {
       statusCode: 200,
       body: JSON.stringify({
         message: "Logout successful",
-        user: updatedUser.Attributes,
       }),
     };
   } catch (error) {

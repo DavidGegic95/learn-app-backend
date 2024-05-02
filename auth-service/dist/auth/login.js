@@ -17,7 +17,7 @@ const aws_sdk_1 = __importDefault(require("aws-sdk"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dynamoDb = new aws_sdk_1.default.DynamoDB.DocumentClient();
 const login = (event) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
+    var _a;
     try {
         let email;
         let password;
@@ -42,34 +42,41 @@ const login = (event) => __awaiter(void 0, void 0, void 0, function* () {
             };
         }
         // const params = {
-        //   TableName: "User",
-        //   IndexName: "EmailIndex", // Specify the name of the GSI
-        //   KeyConditionExpression: "email = :email",
-        //   ExpressionAttributeValues: {
-        //     ":email": email,
+        //   TableName: "Email",
+        //   Key: {
+        //     email: email,
         //   },
         // };
+        // const data = await dynamoDb.get(params).promise();
+        // if (!data.Item) {
+        //   return {
+        //     statusCode: 404,
+        //     body: JSON.stringify({ message: "User not found" }),
+        //   };
+        // }
         const params = {
-            TableName: "Email",
-            Key: {
-                email: email,
+            TableName: "User",
+            FilterExpression: "email = :email",
+            ExpressionAttributeValues: {
+                ":email": email,
             },
         };
-        const data = yield dynamoDb.get(params).promise();
-        if (!data.Item) {
+        // const paramsUser = {
+        //   TableName: "User",
+        //   Key: {
+        //     id: data.Item.id,
+        //   },
+        // };
+        const user = yield dynamoDb.scan(params).promise();
+        if (user.Items && user.Items.length === 0) {
             return {
-                statusCode: 404,
-                body: JSON.stringify({ message: "User not found" }),
+                statusCode: 401,
+                body: JSON.stringify({
+                    message: `User with email ${email} not found`,
+                }),
             };
         }
-        const paramsUser = {
-            TableName: "User",
-            Key: {
-                id: data.Item.id,
-            },
-        };
-        const user = yield dynamoDb.get(paramsUser).promise();
-        const storedPassword = (_a = user === null || user === void 0 ? void 0 : user.Item) === null || _a === void 0 ? void 0 : _a.password;
+        const storedPassword = user.Items[0].password;
         if (password !== storedPassword) {
             return {
                 statusCode: 401,
@@ -79,7 +86,7 @@ const login = (event) => __awaiter(void 0, void 0, void 0, function* () {
         const updateParams = {
             TableName: "User",
             Key: {
-                id: (_b = user === null || user === void 0 ? void 0 : user.Item) === null || _b === void 0 ? void 0 : _b.id,
+                id: (_a = user === null || user === void 0 ? void 0 : user.Items[0]) === null || _a === void 0 ? void 0 : _a.id,
             },
             UpdateExpression: "SET #isActive = :isActive",
             ConditionExpression: "attribute_exists(email)",
@@ -92,7 +99,7 @@ const login = (event) => __awaiter(void 0, void 0, void 0, function* () {
             ReturnValues: "ALL_NEW",
         };
         const updatedUser = yield dynamoDb.update(updateParams).promise();
-        const token = jsonwebtoken_1.default.sign({ email: data.Item.email }, "your_secret_key", {
+        const token = jsonwebtoken_1.default.sign({ email: email }, "your_secret_key", {
             expiresIn: "1h",
         });
         return {
