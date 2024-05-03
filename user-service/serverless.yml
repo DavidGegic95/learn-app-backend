@@ -1,0 +1,98 @@
+service: user-service
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: eu-central-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:GetItem
+        - dynamodb:UpdateItem
+        - dynamodb:Scan
+        - dynamodb:Query
+        - dynamodb:PutItem
+        - dynamodb:DeleteItem
+      Resource:
+        - "arn:aws:dynamodb:eu-central-1:590183937995:table/User"
+        - "arn:aws:dynamodb:eu-central-1:590183937995:table/Student"
+        - "arn:aws:dynamodb:eu-central-1:590183937995:table/Trainer"
+        - "arn:aws:dynamodb:eu-central-1:590183937995:table/Specialization"
+functions:
+  user:
+    handler: ./dist/index.handler
+    events:
+      - http:
+          path: users/{action}
+          method: "any"
+          cors: true
+    # environment:
+    #   DYNAMODB_TABLE: User
+# resources:
+#   # Resources:
+#   #   DynamoDbTable:
+#   #     Type: AWS::DynamoDB::Table
+#   #     Properties:
+#   #       TableName: User
+#   #       AttributeDefinitions:
+#   #         - AttributeName: id
+#   #           AttributeType: S
+#   #       KeySchema:
+#   #         - AttributeName: id
+#   #           KeyType: HASH
+#   #       BillingMode: PAY_PER_REQUEST
+#   Resources:
+#     UserDynamoDbTable:
+#       Type: AWS::DynamoDB::Table
+#       Properties:
+#         TableName: User
+#         AttributeDefinitions:
+#           - AttributeName: id
+#             AttributeType: S
+#         KeySchema:
+#           - AttributeName: id
+#             KeyType: HASH
+#         BillingMode: PAY_PER_REQUEST
+
+#     StudentDynamoDbTable:
+#       Type: AWS::DynamoDB::Table
+#       Properties:
+#         TableName: Student
+#         AttributeDefinitions:
+#           - AttributeName: id
+#             AttributeType: S
+#           - AttributeName: userId
+#             AttributeType: S
+#         KeySchema:
+#           - AttributeName: id
+#             KeyType: HASH
+#           - AttributeName: userId
+#             KeyType: RANGE
+#         BillingMode: PAY_PER_REQUEST
+
+#     TrainerDynamoDbTable:
+#       Type: AWS::DynamoDB::Table
+#       Properties:
+#         TableName: Trainer
+#         AttributeDefinitions:
+#           - AttributeName: id
+#             AttributeType: S
+#           - AttributeName: userId
+#             AttributeType: S
+#         KeySchema:
+#           - AttributeName: id
+#             KeyType: HASH
+#           - AttributeName: userId
+#             KeyType: RANGE
+#         BillingMode: PAY_PER_REQUEST
+
+#     SpecializationDynamoDbTable:
+#       Type: AWS::DynamoDB::Table
+#       Properties:
+#         TableName: Specialization
+#         AttributeDefinitions:
+#           - AttributeName: id
+#             AttributeType: S
+#         KeySchema:
+#           - AttributeName: id
+#             KeyType: HASH
+#         BillingMode: PAY_PER_REQUEST
