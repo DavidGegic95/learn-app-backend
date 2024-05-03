@@ -179,7 +179,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/auth-name/dev/1714675137439-2024-05-02T18:38:57.439Z/auth-name.zip"
+          "S3Key": "serverless/auth-name/dev/1714733479938-2024-05-03T10:51:19.938Z/auth-name.zip"
         },
         "Handler": "./dist/index.auth",
         "Runtime": "nodejs20.x",
@@ -202,14 +202,14 @@
         "AuthLogGroup"
       ]
     },
-    "AuthLambdaVersionVRQlzoQcfHJEEgrR2xzFT56MgtqYM0eHel6JA9c3U": {
+    "AuthLambdaVersionaWOAgIb05cEjXPeyYLdbKxajxH94J6U9PVb7jb8": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AuthLambdaFunction"
         },
-        "CodeSha256": "9U6ESWkhoazJp54b5kAx6ZjAl7i+r8HKrtQTISYVAxI="
+        "CodeSha256": "xjGQGZcr75ijB+s4GcNfgTYe8L5ap1NLhIwMHmJvyBc="
       }
     },
     "ApiGatewayRestApi": {
@@ -342,7 +342,7 @@
         "AuthLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1714675128832": {
+    "ApiGatewayDeployment1714733469972": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -497,7 +497,7 @@
     "AuthLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AuthLambdaVersionVRQlzoQcfHJEEgrR2xzFT56MgtqYM0eHel6JA9c3U"
+        "Ref": "AuthLambdaVersionaWOAgIb05cEjXPeyYLdbKxajxH94J6U9PVb7jb8"
       },
       "Export": {
         "Name": "sls-auth-name-dev-AuthLambdaFunctionQualifiedArn"

@@ -61,6 +61,9 @@ const register = (event) => __awaiter(void 0, void 0, void 0, function* () {
         //
         return {
             statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            },
             body: JSON.stringify({
                 message: "User added successfully",
                 username: userName,
@@ -72,6 +75,9 @@ const register = (event) => __awaiter(void 0, void 0, void 0, function* () {
         console.error("Error logging in:", error);
         return {
             statusCode: 500,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            },
             body: JSON.stringify({ message: "Internal server error" }),
         };
     }

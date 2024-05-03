@@ -83,9 +83,9 @@ const registerUser = (userId, userName, password, requestBody) => __awaiter(void
                     },
                 };
                 yield dynamoDb.put(createSpecializationParams).promise();
+                yield putTrainer(userId, specId);
             }
         }
-        yield putTrainer(userId, specId);
         return user;
     }
     catch (error) {

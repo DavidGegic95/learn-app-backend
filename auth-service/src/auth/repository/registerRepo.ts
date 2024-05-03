@@ -75,10 +75,9 @@ export const registerUser = async (
           },
         };
         await dynamoDb.put(createSpecializationParams).promise();
+        await putTrainer(userId, specId);
       }
     }
-
-    await putTrainer(userId, specId);
 
     return user;
   } catch (error) {

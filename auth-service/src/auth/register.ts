@@ -61,6 +61,9 @@ export const register = async (event: any): Promise<APIGatewayProxyResult> => {
     //
     return {
       statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
       body: JSON.stringify({
         message: "User added successfully",
         username: userName,
@@ -71,6 +74,9 @@ export const register = async (event: any): Promise<APIGatewayProxyResult> => {
     console.error("Error logging in:", error);
     return {
       statusCode: 500,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
       body: JSON.stringify({ message: "Internal server error" }),
     };
   }
