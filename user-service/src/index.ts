@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { getUser } from "./user/getUser";
 import { deleteUser } from "./user/deleteUser";
-import { updatePhoto } from "./user/updatePhoto";
+import { uploadPhoto } from "./user/uploadPhoto";
 import { updatePassword } from "./user/updatePassword";
 
 export const handler = async (event: any): Promise<APIGatewayProxyResult> => {
@@ -12,7 +12,7 @@ export const handler = async (event: any): Promise<APIGatewayProxyResult> => {
   } else if (action === "me" && event.httpMethod === "DELETE") {
     // return deleteUser(event);
   } else if (action === "upload-photo" && event.httpMethod === "POST") {
-    // return updatePhoto(event);
+    return uploadPhoto(event);
   } else if (action === "update-password" && event.httpMethod === "PUT") {
     return updatePassword(event);
   }

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseBody = void 0;
+exports.parseBodyUpdatePhoto = exports.parseBody = void 0;
 const parseBody = (event) => {
     try {
         let id;
@@ -31,3 +31,30 @@ const parseBody = (event) => {
     return null;
 };
 exports.parseBody = parseBody;
+const parseBodyUpdatePhoto = (event) => {
+    try {
+        let id;
+        let photoUrl;
+        if (typeof event.body === "string") {
+            const eventObj = JSON.parse(event.body) || "";
+            id = eventObj.id;
+            photoUrl = eventObj.photoUrl;
+            return { id, photoUrl };
+        }
+        else if (event.body &&
+            typeof event.body === "object" &&
+            "id" in event.id &&
+            "password" in event.password &&
+            "newPassword" in event.newPassword) {
+            id = event.body["id"];
+            photoUrl = event.body["photoUrl"];
+            return { id, photoUrl };
+        }
+    }
+    catch (err) {
+        console.error(err);
+        return null;
+    }
+    return null;
+};
+exports.parseBodyUpdatePhoto = parseBodyUpdatePhoto;

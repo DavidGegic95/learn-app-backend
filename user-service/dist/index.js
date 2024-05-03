@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handler = void 0;
+const uploadPhoto_1 = require("./user/uploadPhoto");
 const updatePassword_1 = require("./user/updatePassword");
 const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
     const { action } = event.pathParameters || {};
@@ -20,7 +21,7 @@ const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
         // return deleteUser(event);
     }
     else if (action === "upload-photo" && event.httpMethod === "POST") {
-        // return updatePhoto(event);
+        return (0, uploadPhoto_1.uploadPhoto)(event);
     }
     else if (action === "update-password" && event.httpMethod === "PUT") {
         return (0, updatePassword_1.updatePassword)(event);

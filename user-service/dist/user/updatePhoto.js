@@ -10,15 +10,51 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updatePhoto = void 0;
+const updatePasswordRepo_1 = require("../repository/updatePasswordRepo");
+const utils_1 = require("./utils");
+const updatePhotoRepo_1 = require("../repository/updatePhotoRepo");
 const updatePhoto = (event) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const body = (0, utils_1.parseBodyUpdatePhoto)(event);
+        if (!body || !body.id || !body.photoUrl) {
+            return {
+                statusCode: 400,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                },
+                body: JSON.stringify({
+                    message: "Required request body, or corresponding paramaters missing",
+                }),
+            };
+        }
+        const user = yield (0, updatePasswordRepo_1.checkUser)(body.id);
+        if (!user || !user.password) {
+            return {
+                statusCode: 400,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                },
+                body: JSON.stringify({ message: "User not found" }),
+            };
+        }
+        const updateUser = yield (0, updatePhotoRepo_1.updatePhotoRepo)(body.id, body.photoUrl);
+        if (!updateUser) {
+            return {
+                statusCode: 400,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                },
+                body: JSON.stringify({ message: "Falied to update photo" }),
+            };
+        }
         return {
             statusCode: 200,
             headers: {
                 "Access-Control-Allow-Origin": "*",
             },
             body: JSON.stringify({
-                message: "Get user",
+                message: "update password",
+                user: updateUser,
             }),
         };
     }

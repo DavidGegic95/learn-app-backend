@@ -196,7 +196,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/user-service/dev/1714750868603-2024-05-03T15:41:08.603Z/user-service.zip"
+                "S3Key": "serverless/user-service/dev/1714753982187-2024-05-03T16:33:02.187Z/user-service.zip"
               },
               "Handler": "./dist/index.handler",
               "Runtime": "nodejs20.x",
@@ -214,14 +214,14 @@
               "UserLogGroup"
             ]
           },
-          "UserLambdaVersionnS0uijazbN9MfrNbAaEyw4gmXYqknL8O6GSKNIfVqKY": {
+          "UserLambdaVersion6rhDe4w8veCQQmqKDOKOiVTWPWHo78AWWjsKsDOzo": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "UserLambdaFunction"
               },
-              "CodeSha256": "mzENLCFRRMHdU+sNYLVfETTa1utgskP2iJ+gev3dSZc="
+              "CodeSha256": "EQoxOTk6FoB+Oe3elXszJSf5Y21PC5VLZ4UPEteA+d0="
             }
           },
           "ApiGatewayRestApi": {
@@ -354,7 +354,7 @@
               "UserLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1714750860138": {
+          "ApiGatewayDeployment1714753973230": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -417,7 +417,7 @@
           "UserLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "UserLambdaVersionnS0uijazbN9MfrNbAaEyw4gmXYqknL8O6GSKNIfVqKY"
+              "Ref": "UserLambdaVersion6rhDe4w8veCQQmqKDOKOiVTWPWHo78AWWjsKsDOzo"
             },
             "Export": {
               "Name": "sls-user-service-dev-UserLambdaFunctionQualifiedArn"
@@ -571,7 +571,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "UserLambdaVersionnS0uijazbN9MfrNbAaEyw4gmXYqknL8O6GSKNIfVqKY"
+        "versionLogicalId": "UserLambdaVersion6rhDe4w8veCQQmqKDOKOiVTWPWHo78AWWjsKsDOzo"
       }
     },
     "configValidationMode": "warn",
@@ -590,7 +590,7 @@
     "artifact": "/Users/korisnik234/Desktop/learn-app-backend/user-service/.serverless/user-service.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/user-service/dev/1714750868603-2024-05-03T15:41:08.603Z",
+    "artifactDirectoryName": "serverless/user-service/dev/1714753982187-2024-05-03T16:33:02.187Z",
     "artifact": "user-service.zip"
   }
 }
