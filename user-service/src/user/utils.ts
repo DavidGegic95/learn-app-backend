@@ -64,3 +64,25 @@ export const parseBodyUpdatePhoto = (event: any) => {
   }
   return null;
 };
+
+export const parseBodyDeleteUser = (event: any): string | null => {
+  try {
+    let id;
+    if (typeof event.body === "string") {
+      const eventObj = JSON.parse(event.body) || "";
+      id = eventObj.id;
+      return id;
+    } else if (
+      event.body &&
+      typeof event.body === "object" &&
+      "id" in event.id
+    ) {
+      id = event.body["id"];
+      return id;
+    }
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+  return event;
+};
