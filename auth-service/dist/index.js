@@ -15,31 +15,13 @@ const logout_1 = require("./auth/logout");
 const register_1 = require("./auth/register");
 const auth = (event) => __awaiter(void 0, void 0, void 0, function* () {
     const { action } = event.pathParameters || {};
-    if (action === "login") {
-        if (event.httpMethod !== "POST") {
-            return {
-                statusCode: 405,
-                body: JSON.stringify({ message: "Method Not Allowed" }),
-            };
-        }
+    if (action === "login" && event.httpMethod === "POST") {
         return (0, login_1.login)(event);
     }
-    else if (action === "logout") {
-        if (event.httpMethod !== "GET") {
-            return {
-                statusCode: 405,
-                body: JSON.stringify({ message: "Method Not Allowed" }),
-            };
-        }
+    else if (action === "logout" && event.httpMethod === "GET") {
         return (0, logout_1.logout)(event);
     }
-    else if (action === "register") {
-        if (event.httpMethod !== "POST") {
-            return {
-                statusCode: 405,
-                body: JSON.stringify({ message: "Method Not Allowed" }),
-            };
-        }
+    else if (action === "register" && event.httpMethod === "POST") {
         return (0, register_1.register)(event);
     }
     return {
