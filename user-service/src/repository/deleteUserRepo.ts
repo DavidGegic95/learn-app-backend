@@ -8,7 +8,7 @@ export const deleteUserRepo = async (id: string) => {
       Key: {
         id: id,
       },
-      ConditionExpression: "attribute_exists(id)", //
+      ConditionExpression: "attribute_exists(id)",
       ReturnValues: "ALL_OLD",
     };
     const deletedUser = await dynamoDb.delete(deleteParams).promise();
