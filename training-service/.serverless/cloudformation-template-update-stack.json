@@ -146,7 +146,10 @@
                   "Action": [
                     "dynamodb:GetItem",
                     "dynamodb:Scan",
-                    "dynamodb:Query"
+                    "dynamodb:Query",
+                    "dynamodb:UpdateItem",
+                    "dynamodb:PutItem",
+                    "dynamodb:DeleteItem"
                   ],
                   "Resource": "arn:aws:dynamodb:eu-central-1:590183937995:table/Training"
                 }
@@ -177,7 +180,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/training-service/dev/1714827016819-2024-05-04T12:50:16.819Z/training-service.zip"
+          "S3Key": "serverless/training-service/dev/1714840191473-2024-05-04T16:29:51.473Z/training-service.zip"
         },
         "Handler": "./dist/index.handler",
         "Runtime": "nodejs20.x",
@@ -202,7 +205,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/training-service/dev/1714827016819-2024-05-04T12:50:16.819Z/training-service.zip"
+          "S3Key": "serverless/training-service/dev/1714840191473-2024-05-04T16:29:51.473Z/training-service.zip"
         },
         "Handler": "./dist/index.handler",
         "Runtime": "nodejs20.x",
@@ -220,24 +223,24 @@
         "TrainingLogGroup"
       ]
     },
-    "SearchTrainingLambdaVersionpC8j4sFJKETuUtlF9eY2EUKSJCU8xMucVyFTh7tc8": {
+    "SearchTrainingLambdaVersionk2ebVPbDufefTt5zwFBIgjMRmhBmtpsVl1A7NbunZpk": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "SearchTrainingLambdaFunction"
         },
-        "CodeSha256": "EQ0oHKtOavOLJpHueZH/q4+gNQbO7PSqMlFBiDMrUp8="
+        "CodeSha256": "hYXOJ0UCKjdJr6sX0CgoETEt2XNR2ZCeHRDGiYEjPsM="
       }
     },
-    "TrainingLambdaVersion2N1ZctuwSHd9iEOmcjWfoLVGLZ5GB92AsETZFVc3I": {
+    "TrainingLambdaVersionK9AnlOP7XjuAwUV7baNe9hfER04TW4v07zElFNHOA": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "TrainingLambdaFunction"
         },
-        "CodeSha256": "EQ0oHKtOavOLJpHueZH/q4+gNQbO7PSqMlFBiDMrUp8="
+        "CodeSha256": "hYXOJ0UCKjdJr6sX0CgoETEt2XNR2ZCeHRDGiYEjPsM="
       }
     },
     "ApiGatewayRestApi": {
@@ -461,7 +464,7 @@
         "TrainingLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1714827009319": {
+    "ApiGatewayDeployment1714840182778": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -582,7 +585,7 @@
     "SearchTrainingLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "SearchTrainingLambdaVersionpC8j4sFJKETuUtlF9eY2EUKSJCU8xMucVyFTh7tc8"
+        "Ref": "SearchTrainingLambdaVersionk2ebVPbDufefTt5zwFBIgjMRmhBmtpsVl1A7NbunZpk"
       },
       "Export": {
         "Name": "sls-training-service-dev-SearchTrainingLambdaFunctionQualifiedArn"
@@ -591,7 +594,7 @@
     "TrainingLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "TrainingLambdaVersion2N1ZctuwSHd9iEOmcjWfoLVGLZ5GB92AsETZFVc3I"
+        "Ref": "TrainingLambdaVersionK9AnlOP7XjuAwUV7baNe9hfER04TW4v07zElFNHOA"
       },
       "Export": {
         "Name": "sls-training-service-dev-TrainingLambdaFunctionQualifiedArn"

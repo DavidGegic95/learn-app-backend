@@ -11,10 +11,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handler = void 0;
 const getTrainings_1 = require("./training/getTrainings");
+const createTraining_1 = require("./training/createTraining");
 const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
     const { action } = event.pathParameters || {};
     if (!action && event.httpMethod === "GET") {
-        // return getTrainings();
+        return (0, getTrainings_1.getTrainings)();
+    }
+    else if (!action && event.httpMethod === "POST") {
+        return (0, createTraining_1.createTraining)(event);
+    }
+    else if (action === "search" && event.httpMethod === "GET") {
         return {
             statusCode: 200,
             headers: {
@@ -22,19 +28,6 @@ const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
             },
             body: JSON.stringify({ message: "Get and search" }),
         };
-    }
-    else if (!action && event.httpMethod === "POST") {
-        // return uploadPhoto(event);
-        return {
-            statusCode: 200,
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-            },
-            body: JSON.stringify({ message: "Post and undefined" }),
-        };
-    }
-    else if (action === "search" && event.httpMethod === "GET") {
-        return (0, getTrainings_1.getTrainings)();
     }
     return {
         statusCode: 404,
