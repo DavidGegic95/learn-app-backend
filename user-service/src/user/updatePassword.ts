@@ -1,6 +1,6 @@
 import { APIGatewayProxyResult } from "aws-lambda";
 import {
-  checkUser,
+  getUserRepo,
   updatePasswordRepo,
 } from "../repository/updatePasswordRepo";
 import { parseBody } from "./utils";
@@ -21,7 +21,7 @@ export const updatePassword = async (
         }),
       };
     }
-    const user = await checkUser(body.id);
+    const user = await getUserRepo(body.id);
     if (!user || !user.password) {
       return {
         statusCode: 400,

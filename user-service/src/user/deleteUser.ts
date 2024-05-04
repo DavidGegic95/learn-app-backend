@@ -1,12 +1,12 @@
 import { APIGatewayProxyResult } from "aws-lambda";
-import { parseBodyDeleteUser } from "./utils";
+import { parseBodyReturnId } from "./utils";
 import { deleteUserRepo } from "../repository/deleteUserRepo";
 
 export const deleteUser = async (
   event: any
 ): Promise<APIGatewayProxyResult> => {
   try {
-    const id = parseBodyDeleteUser(event);
+    const id = parseBodyReturnId(event);
 
     if (!id) {
       return {

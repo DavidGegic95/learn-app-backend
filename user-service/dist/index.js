@@ -10,13 +10,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handler = void 0;
+const getUser_1 = require("./user/getUser");
 const deleteUser_1 = require("./user/deleteUser");
 const uploadPhoto_1 = require("./user/uploadPhoto");
 const updatePassword_1 = require("./user/updatePassword");
 const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
     const { action } = event.pathParameters || {};
     if (action === "me" && event.httpMethod === "GET") {
-        // return getUser(event);
+        return (0, getUser_1.getUser)(event);
     }
     else if (action === "me" && event.httpMethod === "DELETE") {
         return (0, deleteUser_1.deleteUser)(event);

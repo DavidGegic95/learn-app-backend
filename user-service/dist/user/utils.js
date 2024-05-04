@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseBodyDeleteUser = exports.parseBodyUpdatePhoto = exports.parseBody = void 0;
+exports.parseBodyReturnId = exports.parseBodyUpdatePhoto = exports.parseBody = void 0;
 const parseBody = (event) => {
     try {
         let id;
@@ -58,7 +58,7 @@ const parseBodyUpdatePhoto = (event) => {
     return null;
 };
 exports.parseBodyUpdatePhoto = parseBodyUpdatePhoto;
-const parseBodyDeleteUser = (event) => {
+const parseBodyReturnId = (event) => {
     try {
         let id;
         if (typeof event.body === "string") {
@@ -79,4 +79,4 @@ const parseBodyDeleteUser = (event) => {
     }
     return event;
 };
-exports.parseBodyDeleteUser = parseBodyDeleteUser;
+exports.parseBodyReturnId = parseBodyReturnId;

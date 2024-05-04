@@ -1,7 +1,7 @@
 import AWS from "aws-sdk";
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-export const checkUser = async (id: string) => {
+export const getUserRepo = async (id: string) => {
   try {
     const getUserParams = {
       TableName: "User",

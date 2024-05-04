@@ -27,7 +27,7 @@ const uploadPhoto = (event) => __awaiter(void 0, void 0, void 0, function* () {
                 }),
             };
         }
-        const user = yield (0, updatePasswordRepo_1.checkUser)(body.id);
+        const user = yield (0, updatePasswordRepo_1.getUserRepo)(body.id);
         if (!user || !user.password) {
             return {
                 statusCode: 400,

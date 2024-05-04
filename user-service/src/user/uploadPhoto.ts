@@ -1,5 +1,5 @@
 import { APIGatewayProxyResult } from "aws-lambda";
-import { checkUser } from "../repository/updatePasswordRepo";
+import { getUserRepo } from "../repository/updatePasswordRepo";
 import { parseBodyUpdatePhoto } from "./utils";
 import { uploadPhotoRepo } from "../repository/uploadPhotoRepo";
 
@@ -19,7 +19,7 @@ export const uploadPhoto = async (
         }),
       };
     }
-    const user = await checkUser(body.id);
+    const user = await getUserRepo(body.id);
     if (!user || !user.password) {
       return {
         statusCode: 400,

@@ -8,7 +8,7 @@ export const handler = async (event: any): Promise<APIGatewayProxyResult> => {
   const { action } = event.pathParameters || {};
 
   if (action === "me" && event.httpMethod === "GET") {
-    // return getUser(event);
+    return getUser(event);
   } else if (action === "me" && event.httpMethod === "DELETE") {
     return deleteUser(event);
   } else if (action === "upload-photo" && event.httpMethod === "POST") {

@@ -12,10 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePasswordRepo = exports.checkUser = void 0;
+exports.updatePasswordRepo = exports.getUserRepo = void 0;
 const aws_sdk_1 = __importDefault(require("aws-sdk"));
 const dynamoDb = new aws_sdk_1.default.DynamoDB.DocumentClient();
-const checkUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
+const getUserRepo = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const getUserParams = {
             TableName: "User",
@@ -31,7 +31,7 @@ const checkUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
         return null;
     }
 });
-exports.checkUser = checkUser;
+exports.getUserRepo = getUserRepo;
 const updatePasswordRepo = (id, newPassword) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const updateParams = {

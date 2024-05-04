@@ -65,7 +65,7 @@ export const parseBodyUpdatePhoto = (event: any) => {
   return null;
 };
 
-export const parseBodyDeleteUser = (event: any): string | null => {
+export const parseBodyReturnId = (event: any): string | null => {
   try {
     let id;
     if (typeof event.body === "string") {

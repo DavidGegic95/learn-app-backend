@@ -10,8 +10,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUser = void 0;
+const updatePasswordRepo_1 = require("../repository/updatePasswordRepo");
 const getUser = (event) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
+        const id = (_a = event.queryStringParameters) === null || _a === void 0 ? void 0 : _a.id;
+        if (!id) {
+            return {
+                statusCode: 400,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                },
+                body: JSON.stringify({
+                    message: "Request body and corresponding params missing",
+                }),
+            };
+        }
+        const user = yield (0, updatePasswordRepo_1.getUserRepo)(id);
+        if (!user) {
+            return {
+                statusCode: 400,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                },
+                body: JSON.stringify({ message: "User not found" }),
+            };
+        }
         return {
             statusCode: 200,
             headers: {
@@ -19,6 +43,7 @@ const getUser = (event) => __awaiter(void 0, void 0, void 0, function* () {
             },
             body: JSON.stringify({
                 message: "Get user",
+                data: Object.assign({}, user),
             }),
         };
     }

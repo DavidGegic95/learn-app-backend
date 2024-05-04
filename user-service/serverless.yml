@@ -23,7 +23,7 @@ functions:
     events:
       - http:
           path: users/{action}
-          method: "any"
+          method: any
           cors: true
     # environment:
     #   DYNAMODB_TABLE: User

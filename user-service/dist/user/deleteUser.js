@@ -14,7 +14,7 @@ const utils_1 = require("./utils");
 const deleteUserRepo_1 = require("../repository/deleteUserRepo");
 const deleteUser = (event) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = (0, utils_1.parseBodyDeleteUser)(event);
+        const id = (0, utils_1.parseBodyReturnId)(event);
         if (!id) {
             return {
                 statusCode: 400,
