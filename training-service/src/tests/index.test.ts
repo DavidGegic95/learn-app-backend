@@ -1,11 +1,11 @@
-import { handler } from "./index";
-import { getTrainings } from "./training/getTrainings";
-import { createTraining } from "./training/createTraining";
-import { searchTrainings } from "./training/searchTrainings";
+import { handler } from "../index";
+import { getTrainings } from "../training/getTrainings";
+import { createTraining } from "../training/createTraining";
+import { searchTrainings } from "../training/searchTrainings";
 
-jest.mock("./training/getTrainings");
-jest.mock("./training/createTraining");
-jest.mock("./training/searchTrainings");
+jest.mock("../training/getTrainings");
+jest.mock("../training/createTraining");
+jest.mock("../training/searchTrainings");
 
 describe("handler", () => {
   it("should call getTrainings when action is not provided and method is GET", async () => {

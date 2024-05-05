@@ -79,7 +79,7 @@ export interface Training {
   description: string;
 }
 
-function hasRequiredProperties(obj: Training, properties: string[]) {
+export function hasRequiredProperties(obj: Training, properties: string[]) {
   if (typeof obj !== "object") return false;
   for (const prop of properties) {
     if (!(prop in obj && obj[prop as keyof typeof obj])) return false;
