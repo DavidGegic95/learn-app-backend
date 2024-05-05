@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseLoginBody = exports.generatePass = exports.generateUserName = exports.parseBody = void 0;
+exports.parseLoginBody = exports.generatePass = exports.generateUserName = exports.hasRequiredProperties = exports.checkRequestBody = exports.parseBody = void 0;
 const uuid_1 = require("uuid");
 const parseBody = (event) => {
     if (typeof event.body === "string") {
@@ -28,6 +28,7 @@ function checkRequestBody(body) {
         ]);
     }
 }
+exports.checkRequestBody = checkRequestBody;
 function hasRequiredProperties(obj, properties) {
     if (typeof obj !== "object")
         return null;
@@ -37,6 +38,7 @@ function hasRequiredProperties(obj, properties) {
     }
     return obj;
 }
+exports.hasRequiredProperties = hasRequiredProperties;
 function parseRequestBody(body) {
     if (body["role"] === "student") {
         return {
