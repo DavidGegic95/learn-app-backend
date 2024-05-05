@@ -54,7 +54,7 @@ const searchTrainings = (event) => __awaiter(void 0, void 0, void 0, function* (
                 "Access-Control-Allow-Origin": "*",
             },
             body: JSON.stringify({
-                message: "Get user",
+                message: "Results for training search.",
                 data: trainignList,
             }),
         };

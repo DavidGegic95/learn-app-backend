@@ -15,9 +15,6 @@ provider:
         - dynamodb:DeleteItem
       Resource:
         - "arn:aws:dynamodb:eu-central-1:590183937995:table/Training"
-  #       - "arn:aws:dynamodb:eu-central-1:590183937995:table/Student"
-  #       - "arn:aws:dynamodb:eu-central-1:590183937995:table/Trainer"
-  #       - "arn:aws:dynamodb:eu-central-1:590183937995:table/Specialization"
 functions:
   searchTraining:
     handler: ./dist/index.handler

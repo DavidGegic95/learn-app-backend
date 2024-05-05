@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseBodyReturnTrainingObj = void 0;
+exports.hasRequiredProperties = exports.parseBodyReturnTrainingObj = void 0;
 const requiredPropsBody = [
     "id",
     "studentId",
@@ -76,3 +76,4 @@ function hasRequiredProperties(obj, properties) {
     }
     return true;
 }
+exports.hasRequiredProperties = hasRequiredProperties;

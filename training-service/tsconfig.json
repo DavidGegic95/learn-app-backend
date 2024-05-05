@@ -8,5 +8,11 @@
       "strict": true,
       "moduleResolution": "node"
   
-    }
+    },
+    "exclude": [
+      "node_modules",
+      "**/*.spec.ts",
+      "jest.config.ts",
+      "**/*.test.ts"
+    ]
   }

@@ -31,7 +31,7 @@ const getTrainings = () => __awaiter(void 0, void 0, void 0, function* () {
                 "Access-Control-Allow-Origin": "*",
             },
             body: JSON.stringify({
-                message: "Get user",
+                message: "Get list of trainings.",
                 data: allTrainingsList,
             }),
         };
