@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.5% </span>
+                <span class="strong">38.63% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/88</span>
+                <span class='fraction'>34/88</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">44.44% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>4/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>1/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.5% </span>
+                <span class="strong">38.63% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/88</span>
+                <span class='fraction'>34/88</span>
             </div>
         
             
@@ -158,36 +158,36 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -245,37 +245,37 @@
   newPassword: string;
 };
 &nbsp;
-export const parseBody = <span class="fstat-no" title="function not covered" >(event: any): ReturnTypeParseBody =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  try {</span>
-<span class="cstat-no" title="statement not covered" >    let id;</span>
-<span class="cstat-no" title="statement not covered" >    let password;</span>
-<span class="cstat-no" title="statement not covered" >    let newPassword;</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    if (typeof event.body === "string") {</span>
-<span class="cstat-no" title="statement not covered" >      const eventObj = JSON.parse(event.body) || "";</span>
-<span class="cstat-no" title="statement not covered" >      id = eventObj.id;</span>
-<span class="cstat-no" title="statement not covered" >      password = eventObj.password;</span>
-<span class="cstat-no" title="statement not covered" >      newPassword = eventObj.newPassword;</span>
-<span class="cstat-no" title="statement not covered" >      return { id, password, newPassword };</span>
-<span class="cstat-no" title="statement not covered" >    } else if (</span>
-<span class="cstat-no" title="statement not covered" >      event.body &amp;&amp;</span>
-<span class="cstat-no" title="statement not covered" >      typeof event.body === "object" &amp;&amp;</span>
-<span class="cstat-no" title="statement not covered" >      "id" in event.id &amp;&amp;</span>
-<span class="cstat-no" title="statement not covered" >      "password" in event.password &amp;&amp;</span>
+export const parseBody = (event: any): ReturnTypeParseBody =&gt; {
+  try {
+    let id;
+    let password;
+    let newPassword;
+&nbsp;
+    if (typeof event.body === "string") {
+      const eventObj = JSON.parse(event.body)<span class="branch-0 cbranch-no" title="branch not covered" > || "";</span>
+      id = eventObj.id;
+      password = eventObj.password;
+      newPassword = eventObj.newPassword;
+      return { id, password, newPassword };
+    } else if (
+      event.body &amp;&amp;
+      typeof event.body === "object"<span class="branch-0 cbranch-no" title="branch not covered" > &amp;&amp;</span>
+      "id" in event.id<span class="branch-0 cbranch-no" title="branch not covered" > &amp;&amp;</span>
+      "password" in event.password<span class="branch-0 cbranch-no" title="branch not covered" > &amp;&amp;</span>
 <span class="cstat-no" title="statement not covered" >      "newPassword" in event.newPassword</span>
-<span class="cstat-no" title="statement not covered" >    ) {</span>
+    ) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >      id = event.body["id"];</span>
 <span class="cstat-no" title="statement not covered" >      password = event.body["password"];</span>
 <span class="cstat-no" title="statement not covered" >      newPassword = event.body["newPassword"];</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >      return { id, password, newPassword };</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  } catch (err) {</span>
-<span class="cstat-no" title="statement not covered" >    console.error(err);</span>
-<span class="cstat-no" title="statement not covered" >    return null;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >  return null;</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+  return null;
+};
 &nbsp;
 export const parseBodyUpdatePhoto = <span class="fstat-no" title="function not covered" >(event: any) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  try {</span>
@@ -334,7 +334,7 @@ export const parseBodyReturnId = <span class="fstat-no" title="function not cove
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-05-05T08:29:25.050Z
+                at 2024-05-05T09:54:53.755Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
