@@ -22,7 +22,7 @@ const deleteUserRepo = (id) => __awaiter(void 0, void 0, void 0, function* () {
             Key: {
                 id: id,
             },
-            ConditionExpression: "attribute_exists(id)", //
+            ConditionExpression: "attribute_exists(id)",
             ReturnValues: "ALL_OLD",
         };
         const deletedUser = yield dynamoDb.delete(deleteParams).promise();

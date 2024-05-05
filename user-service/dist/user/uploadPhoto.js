@@ -23,7 +23,7 @@ const uploadPhoto = (event) => __awaiter(void 0, void 0, void 0, function* () {
                     "Access-Control-Allow-Origin": "*",
                 },
                 body: JSON.stringify({
-                    message: "Required request body, or corresponding paramaters missing",
+                    message: "Required request body, or corresponding parameters missing",
                 }),
             };
         }
@@ -44,7 +44,7 @@ const uploadPhoto = (event) => __awaiter(void 0, void 0, void 0, function* () {
                 headers: {
                     "Access-Control-Allow-Origin": "*",
                 },
-                body: JSON.stringify({ message: "Falied to update photo" }),
+                body: JSON.stringify({ message: "Failed to update photo" }),
             };
         }
         return {

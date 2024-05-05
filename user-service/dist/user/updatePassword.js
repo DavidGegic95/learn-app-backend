@@ -65,7 +65,7 @@ const updatePassword = (event) => __awaiter(void 0, void 0, void 0, function* ()
                 headers: {
                     "Access-Control-Allow-Origin": "*",
                 },
-                body: JSON.stringify({ message: "54 line" }),
+                body: JSON.stringify({ message: "Failed to update user" }),
             };
         }
         return {
