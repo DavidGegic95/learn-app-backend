@@ -4,9 +4,7 @@ import { logoutUserRepo } from "./repository/logoutRepo";
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-export const logout = async (
-  event: APIGatewayProxyEvent
-): Promise<APIGatewayProxyResult> => {
+export const logout = async (event: any): Promise<APIGatewayProxyResult> => {
   try {
     const id = event.queryStringParameters?.id;
     if (!id) {

@@ -10,7 +10,7 @@ export const parseBody = (event: any) => {
   return null;
 };
 
-function checkRequestBody(body: RequestBody) {
+export function checkRequestBody(body: RequestBody) {
   if (!("role" in body)) return null;
   if ("role" in body && body["role"] === "student") {
     return hasRequiredProperties(body, ["firstName", "lastName", "email"]);
@@ -24,7 +24,7 @@ function checkRequestBody(body: RequestBody) {
   }
 }
 
-function hasRequiredProperties(obj: RequestBody, properties: string[]) {
+export function hasRequiredProperties(obj: RequestBody, properties: string[]) {
   if (typeof obj !== "object") return null;
   for (const prop of properties) {
     if (!(prop in obj)) return null;
