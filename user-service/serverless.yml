@@ -1,0 +1,48 @@
+service: user-service
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: eu-central-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:GetItem
+        - dynamodb:UpdateItem
+        - dynamodb:Scan
+        - dynamodb:Query
+        - dynamodb:PutItem
+        - dynamodb:DeleteItem
+      Resource:
+        - "arn:aws:dynamodb:eu-central-1:590183937995:table/User"
+        - "arn:aws:dynamodb:eu-central-1:590183937995:table/Student"
+        - "arn:aws:dynamodb:eu-central-1:590183937995:table/Trainer"
+        - "arn:aws:dynamodb:eu-central-1:590183937995:table/Specialization"
+functions:
+  getUser:
+    handler: ./dist/index.handler
+    events:
+      - http:
+          path: users/{action}
+          method: get
+          cors: true
+  deleteUser:
+    handler: ./dist/index.handler
+    events:
+      - http:
+          path: users/{action}
+          method: delete
+          cors: true
+  uploadPhoto:
+    handler: ./dist/index.handler
+    events:
+      - http:
+          path: users/{action}
+          method: post
+          cors: true
+  updatePassword:
+    handler: ./dist/index.handler
+    events:
+      - http:
+          path: users/{action}
+          method: put
+          cors: true
