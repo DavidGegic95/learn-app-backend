@@ -1,6 +1,7 @@
 import { APIGatewayProxyResult } from "aws-lambda";
 import { getTrainings } from "./training/getTrainings";
 import { createTraining } from "./training/createTraining";
+import { searchTrainings } from "./training/searchTrainings";
 
 export const handler = async (event: any): Promise<APIGatewayProxyResult> => {
   const { action } = event.pathParameters || {};
@@ -10,13 +11,7 @@ export const handler = async (event: any): Promise<APIGatewayProxyResult> => {
   } else if (!action && event.httpMethod === "POST") {
     return createTraining(event);
   } else if (action === "search" && event.httpMethod === "GET") {
-    return {
-      statusCode: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({ message: "Get and search" }),
-    };
+    return searchTrainings(event);
   }
   return {
     statusCode: 404,

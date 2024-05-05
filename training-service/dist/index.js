@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.handler = void 0;
 const getTrainings_1 = require("./training/getTrainings");
 const createTraining_1 = require("./training/createTraining");
+const searchTrainings_1 = require("./training/searchTrainings");
 const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
     const { action } = event.pathParameters || {};
     if (!action && event.httpMethod === "GET") {
@@ -21,13 +22,7 @@ const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
         return (0, createTraining_1.createTraining)(event);
     }
     else if (action === "search" && event.httpMethod === "GET") {
-        return {
-            statusCode: 200,
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-            },
-            body: JSON.stringify({ message: "Get and search" }),
-        };
+        return (0, searchTrainings_1.searchTrainings)(event);
     }
     return {
         statusCode: 404,

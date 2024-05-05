@@ -22,7 +22,7 @@ export const getTrainings = async (): Promise<APIGatewayProxyResult> => {
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
-        message: "Get user",
+        message: "Get list of trainings.",
         data: allTrainingsList,
       }),
     };

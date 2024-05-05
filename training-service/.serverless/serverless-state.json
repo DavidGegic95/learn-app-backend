@@ -24,6 +24,7 @@
       ],
       "stage": "dev",
       "versionFunctions": true,
+      "apiGatewayRestApiId": null,
       "compiledCloudFormationTemplate": {
         "AWSTemplateFormatVersion": "2010-09-09",
         "Description": "The AWS CloudFormation template for this Serverless application",
@@ -103,10 +104,16 @@
               "LogGroupName": "/aws/lambda/training-service-dev-searchTraining"
             }
           },
-          "TrainingLogGroup": {
+          "CreateTrainingLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/training-service-dev-training"
+              "LogGroupName": "/aws/lambda/training-service-dev-createTraining"
+            }
+          },
+          "GetTrainingsLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/training-service-dev-getTrainings"
             }
           },
           "IamRoleLambdaExecution": {
@@ -197,7 +204,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/training-service/dev/1714840191473-2024-05-04T16:29:51.473Z/training-service.zip"
+                "S3Key": "serverless/training-service/dev/1714890051485-2024-05-05T06:20:51.485Z/training-service.zip"
               },
               "Handler": "./dist/index.handler",
               "Runtime": "nodejs20.x",
@@ -215,18 +222,18 @@
               "SearchTrainingLogGroup"
             ]
           },
-          "TrainingLambdaFunction": {
+          "CreateTrainingLambdaFunction": {
             "Type": "AWS::Lambda::Function",
             "Properties": {
               "Code": {
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/training-service/dev/1714840191473-2024-05-04T16:29:51.473Z/training-service.zip"
+                "S3Key": "serverless/training-service/dev/1714890051485-2024-05-05T06:20:51.485Z/training-service.zip"
               },
               "Handler": "./dist/index.handler",
               "Runtime": "nodejs20.x",
-              "FunctionName": "training-service-dev-training",
+              "FunctionName": "training-service-dev-createTraining",
               "MemorySize": 1024,
               "Timeout": 6,
               "Role": {
@@ -237,27 +244,62 @@
               }
             },
             "DependsOn": [
-              "TrainingLogGroup"
+              "CreateTrainingLogGroup"
             ]
           },
-          "SearchTrainingLambdaVersionk2ebVPbDufefTt5zwFBIgjMRmhBmtpsVl1A7NbunZpk": {
+          "GetTrainingsLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/training-service/dev/1714890051485-2024-05-05T06:20:51.485Z/training-service.zip"
+              },
+              "Handler": "./dist/index.handler",
+              "Runtime": "nodejs20.x",
+              "FunctionName": "training-service-dev-getTrainings",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "GetTrainingsLogGroup"
+            ]
+          },
+          "SearchTrainingLambdaVersionOyDwobAySrvGed6qqGR4onXEH5rskrmL4q79zCY6Y": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "SearchTrainingLambdaFunction"
               },
-              "CodeSha256": "hYXOJ0UCKjdJr6sX0CgoETEt2XNR2ZCeHRDGiYEjPsM="
+              "CodeSha256": "mVnAfwAHMoTLd1/4TkTqYcfy9TkQ60r0iULZnx1bGn8="
             }
           },
-          "TrainingLambdaVersionK9AnlOP7XjuAwUV7baNe9hfER04TW4v07zElFNHOA": {
+          "CreateTrainingLambdaVersionRbTc8lENuPBb5dCNKyAUor9QABHQVd8X5oDyJu20": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
-                "Ref": "TrainingLambdaFunction"
+                "Ref": "CreateTrainingLambdaFunction"
               },
-              "CodeSha256": "hYXOJ0UCKjdJr6sX0CgoETEt2XNR2ZCeHRDGiYEjPsM="
+              "CodeSha256": "mVnAfwAHMoTLd1/4TkTqYcfy9TkQ60r0iULZnx1bGn8="
+            }
+          },
+          "GetTrainingsLambdaVersionjBAwEIIu4MFsCeHAgvucUeySjsqvTGwcxOPipybk": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "GetTrainingsLambdaFunction"
+              },
+              "CodeSha256": "mVnAfwAHMoTLd1/4TkTqYcfy9TkQ60r0iULZnx1bGn8="
             }
           },
           "ApiGatewayRestApi": {
@@ -373,7 +415,7 @@
                     "ResponseParameters": {
                       "method.response.header.Access-Control-Allow-Origin": "'*'",
                       "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
-                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,GET,HEAD,PATCH,POST,PUT'"
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST'"
                     },
                     "ResponseTemplates": {
                       "application/json": ""
@@ -435,10 +477,10 @@
               "SearchTrainingLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayMethodTrainingsAny": {
+          "ApiGatewayMethodTrainingsPost": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
-              "HttpMethod": "ANY",
+              "HttpMethod": "POST",
               "RequestParameters": {},
               "ResourceId": {
                 "Ref": "ApiGatewayResourceTrainings"
@@ -466,7 +508,7 @@
                       ":lambda:path/2015-03-31/functions/",
                       {
                         "Fn::GetAtt": [
-                          "TrainingLambdaFunction",
+                          "CreateTrainingLambdaFunction",
                           "Arn"
                         ]
                       },
@@ -478,10 +520,56 @@
               "MethodResponses": []
             },
             "DependsOn": [
-              "TrainingLambdaPermissionApiGateway"
+              "CreateTrainingLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1714840182778": {
+          "ApiGatewayMethodTrainingsGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceTrainings"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "GetTrainingsLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "GetTrainingsLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayDeployment1714890041083": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -493,7 +581,8 @@
               "ApiGatewayMethodTrainingsActionVarOptions",
               "ApiGatewayMethodTrainingsOptions",
               "ApiGatewayMethodTrainingsActionVarGet",
-              "ApiGatewayMethodTrainingsAny"
+              "ApiGatewayMethodTrainingsPost",
+              "ApiGatewayMethodTrainingsGet"
             ]
           },
           "SearchTrainingLambdaPermissionApiGateway": {
@@ -533,12 +622,49 @@
               }
             }
           },
-          "TrainingLambdaPermissionApiGateway": {
+          "CreateTrainingLambdaPermissionApiGateway": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
               "FunctionName": {
                 "Fn::GetAtt": [
-                  "TrainingLambdaFunction",
+                  "CreateTrainingLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "GetTrainingsLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "GetTrainingsLambdaFunction",
                   "Arn"
                 ]
               },
@@ -602,19 +728,28 @@
           "SearchTrainingLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "SearchTrainingLambdaVersionk2ebVPbDufefTt5zwFBIgjMRmhBmtpsVl1A7NbunZpk"
+              "Ref": "SearchTrainingLambdaVersionOyDwobAySrvGed6qqGR4onXEH5rskrmL4q79zCY6Y"
             },
             "Export": {
               "Name": "sls-training-service-dev-SearchTrainingLambdaFunctionQualifiedArn"
             }
           },
-          "TrainingLambdaFunctionQualifiedArn": {
+          "CreateTrainingLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "TrainingLambdaVersionK9AnlOP7XjuAwUV7baNe9hfER04TW4v07zElFNHOA"
+              "Ref": "CreateTrainingLambdaVersionRbTc8lENuPBb5dCNKyAUor9QABHQVd8X5oDyJu20"
             },
             "Export": {
-              "Name": "sls-training-service-dev-TrainingLambdaFunctionQualifiedArn"
+              "Name": "sls-training-service-dev-CreateTrainingLambdaFunctionQualifiedArn"
+            }
+          },
+          "GetTrainingsLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "GetTrainingsLambdaVersionjBAwEIIu4MFsCeHAgvucUeySjsqvTGwcxOPipybk"
+            },
+            "Export": {
+              "Name": "sls-training-service-dev-GetTrainingsLambdaFunctionQualifiedArn"
             }
           },
           "ServiceEndpoint": {
@@ -765,20 +900,20 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "SearchTrainingLambdaVersionk2ebVPbDufefTt5zwFBIgjMRmhBmtpsVl1A7NbunZpk"
+        "versionLogicalId": "SearchTrainingLambdaVersionOyDwobAySrvGed6qqGR4onXEH5rskrmL4q79zCY6Y"
       },
-      "training": {
+      "createTraining": {
         "handler": "./dist/index.handler",
         "events": [
           {
             "http": {
               "path": "trainings",
-              "method": "any",
+              "method": "post",
               "cors": {
                 "origin": "*",
                 "methods": [
                   "OPTIONS",
-                  "ANY"
+                  "POST"
                 ],
                 "headers": [
                   "Content-Type",
@@ -795,13 +930,49 @@
             }
           }
         ],
-        "name": "training-service-dev-training",
+        "name": "training-service-dev-createTraining",
         "package": {},
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "TrainingLambdaVersionK9AnlOP7XjuAwUV7baNe9hfER04TW4v07zElFNHOA"
+        "versionLogicalId": "CreateTrainingLambdaVersionRbTc8lENuPBb5dCNKyAUor9QABHQVd8X5oDyJu20"
+      },
+      "getTrainings": {
+        "handler": "./dist/index.handler",
+        "events": [
+          {
+            "http": {
+              "path": "trainings",
+              "method": "get",
+              "cors": {
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "GET"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent",
+                  "X-Amzn-Trace-Id"
+                ],
+                "allowCredentials": false
+              },
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "training-service-dev-getTrainings",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "nodejs20.x",
+        "vpc": {},
+        "versionLogicalId": "GetTrainingsLambdaVersionjBAwEIIu4MFsCeHAgvucUeySjsqvTGwcxOPipybk"
       }
     },
     "resources": {
@@ -847,7 +1018,7 @@
     "artifact": "/Users/korisnik234/Desktop/learn-app-backend/training-service/.serverless/training-service.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/training-service/dev/1714840191473-2024-05-04T16:29:51.473Z",
+    "artifactDirectoryName": "serverless/training-service/dev/1714890051485-2024-05-05T06:20:51.485Z",
     "artifact": "training-service.zip"
   }
 }

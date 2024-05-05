@@ -3,6 +3,7 @@ provider:
   name: aws
   runtime: nodejs20.x
   region: eu-central-1
+  apiGatewayRestApiId:
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -26,15 +27,21 @@ functions:
           method: get
           cors: true
 
-  training:
+  createTraining:
     handler: ./dist/index.handler
     events:
       - http:
           path: trainings
-          method: any
+          method: post
           cors: true
-    # environment:
-    #   DYNAMODB_TABLE: User
+  getTrainings:
+    handler: ./dist/index.handler
+    events:
+      - http:
+          path: trainings
+          method: get
+          cors: true
+
 resources:
   Resources:
     TrainingDynamoDbTable:
@@ -48,59 +55,3 @@ resources:
           - AttributeName: id
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
-  # Resources:
-  #   UserDynamoDbTable:
-  #     Type: AWS::DynamoDB::Table
-  #     Properties:
-  #       TableName: User
-  #       AttributeDefinitions:
-  #         - AttributeName: id
-  #           AttributeType: S
-  #       KeySchema:
-  #         - AttributeName: id
-  #           KeyType: HASH
-  #       BillingMode: PAY_PER_REQUEST
-
-  #   StudentDynamoDbTable:
-  #     Type: AWS::DynamoDB::Table
-  #     Properties:
-  #       TableName: Student
-  #       AttributeDefinitions:
-  #         - AttributeName: id
-  #           AttributeType: S
-  #         - AttributeName: userId
-  #           AttributeType: S
-  #       KeySchema:
-  #         - AttributeName: id
-  #           KeyType: HASH
-  #         - AttributeName: userId
-  #           KeyType: RANGE
-  #       BillingMode: PAY_PER_REQUEST
-
-  #   TrainerDynamoDbTable:
-  #     Type: AWS::DynamoDB::Table
-  #     Properties:
-  #       TableName: Trainer
-  #       AttributeDefinitions:
-  #         - AttributeName: id
-  #           AttributeType: S
-  #         - AttributeName: userId
-  #           AttributeType: S
-  #       KeySchema:
-  #         - AttributeName: id
-  #           KeyType: HASH
-  #         - AttributeName: userId
-  #           KeyType: RANGE
-  #       BillingMode: PAY_PER_REQUEST
-
-  #   SpecializationDynamoDbTable:
-  #     Type: AWS::DynamoDB::Table
-  #     Properties:
-  #       TableName: Specialization
-  #       AttributeDefinitions:
-  #         - AttributeName: id
-  #           AttributeType: S
-  #       KeySchema:
-  #         - AttributeName: id
-  #           KeyType: HASH
-  #       BillingMode: PAY_PER_REQUEST
