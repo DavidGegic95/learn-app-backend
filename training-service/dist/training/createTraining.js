@@ -15,7 +15,6 @@ const createTrainingRepo_1 = require("../repository/createTrainingRepo");
 const createTraining = (event) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const parsedBody = (0, utils_1.parseBodyReturnTrainingObj)(event);
-        console.log(parsedBody);
         if (!parsedBody) {
             return {
                 statusCode: 400,

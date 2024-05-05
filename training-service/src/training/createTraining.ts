@@ -7,7 +7,6 @@ export const createTraining = async (
 ): Promise<APIGatewayProxyResult> => {
   try {
     const parsedBody: Training | null = parseBodyReturnTrainingObj(event);
-    console.log(parsedBody);
     if (!parsedBody) {
       return {
         statusCode: 400,

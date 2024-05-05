@@ -186,7 +186,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/training-service/dev/1714913475445-2024-05-05T12:51:15.445Z/training-service.zip"
+          "S3Key": "serverless/training-service/dev/1714913846981-2024-05-05T12:57:26.981Z/training-service.zip"
         },
         "Handler": "./dist/index.handler",
         "Runtime": "nodejs20.x",
@@ -211,7 +211,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/training-service/dev/1714913475445-2024-05-05T12:51:15.445Z/training-service.zip"
+          "S3Key": "serverless/training-service/dev/1714913846981-2024-05-05T12:57:26.981Z/training-service.zip"
         },
         "Handler": "./dist/index.handler",
         "Runtime": "nodejs20.x",
@@ -236,7 +236,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/training-service/dev/1714913475445-2024-05-05T12:51:15.445Z/training-service.zip"
+          "S3Key": "serverless/training-service/dev/1714913846981-2024-05-05T12:57:26.981Z/training-service.zip"
         },
         "Handler": "./dist/index.handler",
         "Runtime": "nodejs20.x",
@@ -254,34 +254,34 @@
         "GetTrainingsLogGroup"
       ]
     },
-    "SearchTrainingLambdaVersion7PzHjL1rN05sxwK0u0EnivvLR3hPZVTMDbzE6pWAo0": {
+    "SearchTrainingLambdaVersionf04EioBRv04qeskKehD8QrBAkzOi6nGCaXalUZdo": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "SearchTrainingLambdaFunction"
         },
-        "CodeSha256": "JiCyhmK7Pnnqka2zdEvnJYSAVuatUiKGuehhIUjutRs="
+        "CodeSha256": "y/XA92f/j8gp18yNAuOoVJ/WLW9vCjLbXKlkwj1W01U="
       }
     },
-    "CreateTrainingLambdaVersionUQTUocw56Gw85jCl0c9Zlm5S4PUrumPAOAnEzQsiw": {
+    "CreateTrainingLambdaVersioncXKltf7ms5uHcXcPC4j18KOYRLz2M14Qgv2f1HBTWU": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateTrainingLambdaFunction"
         },
-        "CodeSha256": "JiCyhmK7Pnnqka2zdEvnJYSAVuatUiKGuehhIUjutRs="
+        "CodeSha256": "y/XA92f/j8gp18yNAuOoVJ/WLW9vCjLbXKlkwj1W01U="
       }
     },
-    "GetTrainingsLambdaVersionMUeqxkPWyCZreqtBC091VyRjPcKRmE1favTtH0o8": {
+    "GetTrainingsLambdaVersionotgnOoOovx9sWcTjrjvFFM4hDAuAO8gwCWFDnYyrsUo": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetTrainingsLambdaFunction"
         },
-        "CodeSha256": "JiCyhmK7Pnnqka2zdEvnJYSAVuatUiKGuehhIUjutRs="
+        "CodeSha256": "y/XA92f/j8gp18yNAuOoVJ/WLW9vCjLbXKlkwj1W01U="
       }
     },
     "ApiGatewayRestApi": {
@@ -551,7 +551,7 @@
         "GetTrainingsLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1714913463660": {
+    "ApiGatewayDeployment1714913829433": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -710,7 +710,7 @@
     "SearchTrainingLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "SearchTrainingLambdaVersion7PzHjL1rN05sxwK0u0EnivvLR3hPZVTMDbzE6pWAo0"
+        "Ref": "SearchTrainingLambdaVersionf04EioBRv04qeskKehD8QrBAkzOi6nGCaXalUZdo"
       },
       "Export": {
         "Name": "sls-training-service-dev-SearchTrainingLambdaFunctionQualifiedArn"
@@ -719,7 +719,7 @@
     "CreateTrainingLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateTrainingLambdaVersionUQTUocw56Gw85jCl0c9Zlm5S4PUrumPAOAnEzQsiw"
+        "Ref": "CreateTrainingLambdaVersioncXKltf7ms5uHcXcPC4j18KOYRLz2M14Qgv2f1HBTWU"
       },
       "Export": {
         "Name": "sls-training-service-dev-CreateTrainingLambdaFunctionQualifiedArn"
@@ -728,7 +728,7 @@
     "GetTrainingsLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetTrainingsLambdaVersionMUeqxkPWyCZreqtBC091VyRjPcKRmE1favTtH0o8"
+        "Ref": "GetTrainingsLambdaVersionotgnOoOovx9sWcTjrjvFFM4hDAuAO8gwCWFDnYyrsUo"
       },
       "Export": {
         "Name": "sls-training-service-dev-GetTrainingsLambdaFunctionQualifiedArn"
