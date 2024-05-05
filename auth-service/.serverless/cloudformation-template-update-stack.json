@@ -71,10 +71,22 @@
         }
       }
     },
-    "AuthLogGroup": {
+    "LoginLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/auth-name-dev-auth"
+        "LogGroupName": "/aws/lambda/auth-name-dev-login"
+      }
+    },
+    "LogoutLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/auth-name-dev-logout"
+      }
+    },
+    "RegisterLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/auth-name-dev-register"
       }
     },
     "IamRoleLambdaExecution": {
@@ -172,18 +184,68 @@
         }
       }
     },
-    "AuthLambdaFunction": {
+    "LoginLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/auth-name/dev/1714757745709-2024-05-03T17:35:45.709Z/auth-name.zip"
+          "S3Key": "serverless/auth-name/dev/1714912145788-2024-05-05T12:29:05.788Z/auth-name.zip"
         },
         "Handler": "./dist/index.auth",
         "Runtime": "nodejs20.x",
-        "FunctionName": "auth-name-dev-auth",
+        "FunctionName": "auth-name-dev-login",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "LoginLogGroup"
+      ]
+    },
+    "LogoutLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/auth-name/dev/1714912145788-2024-05-05T12:29:05.788Z/auth-name.zip"
+        },
+        "Handler": "./dist/index.auth",
+        "Runtime": "nodejs20.x",
+        "FunctionName": "auth-name-dev-logout",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "LogoutLogGroup"
+      ]
+    },
+    "RegisterLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/auth-name/dev/1714912145788-2024-05-05T12:29:05.788Z/auth-name.zip"
+        },
+        "Handler": "./dist/index.auth",
+        "Runtime": "nodejs20.x",
+        "FunctionName": "auth-name-dev-register",
         "MemorySize": 1024,
         "Timeout": 6,
         "Environment": {
@@ -199,17 +261,37 @@
         }
       },
       "DependsOn": [
-        "AuthLogGroup"
+        "RegisterLogGroup"
       ]
     },
-    "AuthLambdaVersionJfUtLnTiByulQUROdiMkJCCL59hXrL07RxU2JES9pjA": {
+    "LoginLambdaVersiong2Z8Tp2LkuyMLsDpCynNLwCSN80xDpuw03XHrs8": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "AuthLambdaFunction"
+          "Ref": "LoginLambdaFunction"
         },
-        "CodeSha256": "u8a4taRbCselws89CSYiOoG6a4WfESmDmXqUYq2mlys="
+        "CodeSha256": "+KS0ZPkIqBihI+eRB7zGhju1jH8TSgRbCAyg0qNsjQo="
+      }
+    },
+    "LogoutLambdaVersion69zRRwhFCSoV4EByv8sQvzlzSOIDzQ3zO0mxtJUB0": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "LogoutLambdaFunction"
+        },
+        "CodeSha256": "+KS0ZPkIqBihI+eRB7zGhju1jH8TSgRbCAyg0qNsjQo="
+      }
+    },
+    "RegisterLambdaVersionkUQzCb36JWPpwooet1mxHkmpQ2dZvIsEEDoAqn1groU": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "RegisterLambdaFunction"
+        },
+        "CodeSha256": "+KS0ZPkIqBihI+eRB7zGhju1jH8TSgRbCAyg0qNsjQo="
       }
     },
     "ApiGatewayRestApi": {
@@ -280,7 +362,7 @@
               "ResponseParameters": {
                 "method.response.header.Access-Control-Allow-Origin": "'*'",
                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
-                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,GET,HEAD,PATCH,POST,PUT'"
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'"
               },
               "ResponseTemplates": {
                 "application/json": ""
@@ -296,10 +378,10 @@
         }
       }
     },
-    "ApiGatewayMethodAuthActionVarAny": {
+    "ApiGatewayMethodAuthActionVarPost": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
-        "HttpMethod": "ANY",
+        "HttpMethod": "POST",
         "RequestParameters": {},
         "ResourceId": {
           "Ref": "ApiGatewayResourceAuthActionVar"
@@ -327,7 +409,7 @@
                 ":lambda:path/2015-03-31/functions/",
                 {
                   "Fn::GetAtt": [
-                    "AuthLambdaFunction",
+                    "RegisterLambdaFunction",
                     "Arn"
                   ]
                 },
@@ -339,10 +421,56 @@
         "MethodResponses": []
       },
       "DependsOn": [
-        "AuthLambdaPermissionApiGateway"
+        "RegisterLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1714757737227": {
+    "ApiGatewayMethodAuthActionVarGet": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceAuthActionVar"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "LogoutLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      },
+      "DependsOn": [
+        "LogoutLambdaPermissionApiGateway"
+      ]
+    },
+    "ApiGatewayDeployment1714912136101": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -352,15 +480,91 @@
       },
       "DependsOn": [
         "ApiGatewayMethodAuthActionVarOptions",
-        "ApiGatewayMethodAuthActionVarAny"
+        "ApiGatewayMethodAuthActionVarPost",
+        "ApiGatewayMethodAuthActionVarGet",
+        "ApiGatewayMethodAuthActionVarPost"
       ]
     },
-    "AuthLambdaPermissionApiGateway": {
+    "LoginLambdaPermissionApiGateway": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "FunctionName": {
           "Fn::GetAtt": [
-            "AuthLambdaFunction",
+            "LoginLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "LogoutLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "LogoutLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "RegisterLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "RegisterLambdaFunction",
             "Arn"
           ]
         },
@@ -494,13 +698,31 @@
         "Name": "sls-auth-name-dev-ServerlessDeploymentBucketName"
       }
     },
-    "AuthLambdaFunctionQualifiedArn": {
+    "LoginLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AuthLambdaVersionJfUtLnTiByulQUROdiMkJCCL59hXrL07RxU2JES9pjA"
+        "Ref": "LoginLambdaVersiong2Z8Tp2LkuyMLsDpCynNLwCSN80xDpuw03XHrs8"
       },
       "Export": {
-        "Name": "sls-auth-name-dev-AuthLambdaFunctionQualifiedArn"
+        "Name": "sls-auth-name-dev-LoginLambdaFunctionQualifiedArn"
+      }
+    },
+    "LogoutLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "LogoutLambdaVersion69zRRwhFCSoV4EByv8sQvzlzSOIDzQ3zO0mxtJUB0"
+      },
+      "Export": {
+        "Name": "sls-auth-name-dev-LogoutLambdaFunctionQualifiedArn"
+      }
+    },
+    "RegisterLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "RegisterLambdaVersionkUQzCb36JWPpwooet1mxHkmpQ2dZvIsEEDoAqn1groU"
+      },
+      "Export": {
+        "Name": "sls-auth-name-dev-RegisterLambdaFunctionQualifiedArn"
       }
     },
     "ServiceEndpoint": {
