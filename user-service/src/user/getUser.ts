@@ -1,5 +1,4 @@
 import { APIGatewayProxyResult } from "aws-lambda";
-import { parseBodyReturnId } from "./utils";
 import { getUserRepo } from "../repository/updatePasswordRepo";
 
 export const getUser = async (event: any): Promise<APIGatewayProxyResult> => {

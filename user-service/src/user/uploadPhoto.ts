@@ -15,7 +15,7 @@ export const uploadPhoto = async (
           "Access-Control-Allow-Origin": "*",
         },
         body: JSON.stringify({
-          message: "Required request body, or corresponding paramaters missing",
+          message: "Required request body, or corresponding parameters missing",
         }),
       };
     }
@@ -37,7 +37,7 @@ export const uploadPhoto = async (
         headers: {
           "Access-Control-Allow-Origin": "*",
         },
-        body: JSON.stringify({ message: "Falied to update photo" }),
+        body: JSON.stringify({ message: "Failed to update photo" }),
       };
     }
     return {

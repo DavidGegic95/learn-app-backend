@@ -61,7 +61,7 @@ export const updatePassword = async (
         headers: {
           "Access-Control-Allow-Origin": "*",
         },
-        body: JSON.stringify({ message: "54 line" }),
+        body: JSON.stringify({ message: "Failed to update user" }),
       };
     }
     return {
