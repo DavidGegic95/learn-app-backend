@@ -17,7 +17,12 @@ function checkRequestBody(body) {
     if (!("role" in body))
         return null;
     if ("role" in body && body["role"] === "student") {
-        return hasRequiredProperties(body, ["firstName", "lastName", "email"]);
+        return hasRequiredProperties(body, [
+            "firstName",
+            "lastName",
+            "email",
+            "role",
+        ]);
     }
     else {
         return hasRequiredProperties(body, [
@@ -25,6 +30,7 @@ function checkRequestBody(body) {
             "lastName",
             "email",
             "specialization",
+            "role",
         ]);
     }
 }

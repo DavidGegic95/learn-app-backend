@@ -40,6 +40,7 @@ const registerUser = (userId, userName, password, requestBody) => __awaiter(void
             firstName: requestBody.firstName,
             lastName: requestBody.lastName,
             email: requestBody.email,
+            role: requestBody.role,
             isActive: false,
             username: userName,
             photo: "",
@@ -71,7 +72,7 @@ const registerUser = (userId, userName, password, requestBody) => __awaiter(void
         else {
             const spec = yield dynamoDb.scan(specializationParams).promise();
             if (spec.Items && spec.Items[0]) {
-                const specObj = spec.Items[0].id;
+                specId = yield spec.Items[0].id;
             }
             else {
                 specId = (0, uuid_1.v4)();
@@ -83,8 +84,8 @@ const registerUser = (userId, userName, password, requestBody) => __awaiter(void
                     },
                 };
                 yield dynamoDb.put(createSpecializationParams).promise();
-                yield putTrainer(userId, specId);
             }
+            yield putTrainer(userId, specId);
         }
         return user;
     }

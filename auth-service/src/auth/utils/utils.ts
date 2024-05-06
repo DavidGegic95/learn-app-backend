@@ -13,13 +13,19 @@ export const parseBody = (event: any) => {
 export function checkRequestBody(body: RequestBody) {
   if (!("role" in body)) return null;
   if ("role" in body && body["role"] === "student") {
-    return hasRequiredProperties(body, ["firstName", "lastName", "email"]);
+    return hasRequiredProperties(body, [
+      "firstName",
+      "lastName",
+      "email",
+      "role",
+    ]);
   } else {
     return hasRequiredProperties(body, [
       "firstName",
       "lastName",
       "email",
       "specialization",
+      "role",
     ]);
   }
 }

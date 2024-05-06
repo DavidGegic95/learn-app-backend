@@ -191,7 +191,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/auth-name/dev/1714912145788-2024-05-05T12:29:05.788Z/auth-name.zip"
+          "S3Key": "serverless/auth-name/dev/1714975872573-2024-05-06T06:11:12.573Z/auth-name.zip"
         },
         "Handler": "./dist/index.auth",
         "Runtime": "nodejs20.x",
@@ -216,7 +216,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/auth-name/dev/1714912145788-2024-05-05T12:29:05.788Z/auth-name.zip"
+          "S3Key": "serverless/auth-name/dev/1714975872573-2024-05-06T06:11:12.573Z/auth-name.zip"
         },
         "Handler": "./dist/index.auth",
         "Runtime": "nodejs20.x",
@@ -241,7 +241,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/auth-name/dev/1714912145788-2024-05-05T12:29:05.788Z/auth-name.zip"
+          "S3Key": "serverless/auth-name/dev/1714975872573-2024-05-06T06:11:12.573Z/auth-name.zip"
         },
         "Handler": "./dist/index.auth",
         "Runtime": "nodejs20.x",
@@ -264,34 +264,34 @@
         "RegisterLogGroup"
       ]
     },
-    "LoginLambdaVersiong2Z8Tp2LkuyMLsDpCynNLwCSN80xDpuw03XHrs8": {
+    "LoginLambdaVersionwJrkirLE1Gg1oKT7zCEG5pWBZ6MUpDQVchYHle6kgg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "LoginLambdaFunction"
         },
-        "CodeSha256": "+KS0ZPkIqBihI+eRB7zGhju1jH8TSgRbCAyg0qNsjQo="
+        "CodeSha256": "C+gqaR3/80CDd2IpOSCazJDA3s/QE4hQrkOEkywK/Yc="
       }
     },
-    "LogoutLambdaVersion69zRRwhFCSoV4EByv8sQvzlzSOIDzQ3zO0mxtJUB0": {
+    "LogoutLambdaVersionH2obr5PQ2qeNIqA5QFgq4eiZiDNlabibYDlUhjBzE": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "LogoutLambdaFunction"
         },
-        "CodeSha256": "+KS0ZPkIqBihI+eRB7zGhju1jH8TSgRbCAyg0qNsjQo="
+        "CodeSha256": "C+gqaR3/80CDd2IpOSCazJDA3s/QE4hQrkOEkywK/Yc="
       }
     },
-    "RegisterLambdaVersionkUQzCb36JWPpwooet1mxHkmpQ2dZvIsEEDoAqn1groU": {
+    "RegisterLambdaVersionOMCVj8EXdPjWcky7EGRFnkAqtpG42ED1QFaXbYRSI": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "RegisterLambdaFunction"
         },
-        "CodeSha256": "+KS0ZPkIqBihI+eRB7zGhju1jH8TSgRbCAyg0qNsjQo="
+        "CodeSha256": "C+gqaR3/80CDd2IpOSCazJDA3s/QE4hQrkOEkywK/Yc="
       }
     },
     "ApiGatewayRestApi": {
@@ -470,7 +470,7 @@
         "LogoutLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1714912136101": {
+    "ApiGatewayDeployment1714975862640": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -701,7 +701,7 @@
     "LoginLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "LoginLambdaVersiong2Z8Tp2LkuyMLsDpCynNLwCSN80xDpuw03XHrs8"
+        "Ref": "LoginLambdaVersionwJrkirLE1Gg1oKT7zCEG5pWBZ6MUpDQVchYHle6kgg"
       },
       "Export": {
         "Name": "sls-auth-name-dev-LoginLambdaFunctionQualifiedArn"
@@ -710,7 +710,7 @@
     "LogoutLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "LogoutLambdaVersion69zRRwhFCSoV4EByv8sQvzlzSOIDzQ3zO0mxtJUB0"
+        "Ref": "LogoutLambdaVersionH2obr5PQ2qeNIqA5QFgq4eiZiDNlabibYDlUhjBzE"
       },
       "Export": {
         "Name": "sls-auth-name-dev-LogoutLambdaFunctionQualifiedArn"
@@ -719,7 +719,7 @@
     "RegisterLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "RegisterLambdaVersionkUQzCb36JWPpwooet1mxHkmpQ2dZvIsEEDoAqn1groU"
+        "Ref": "RegisterLambdaVersionOMCVj8EXdPjWcky7EGRFnkAqtpG42ED1QFaXbYRSI"
       },
       "Export": {
         "Name": "sls-auth-name-dev-RegisterLambdaFunctionQualifiedArn"

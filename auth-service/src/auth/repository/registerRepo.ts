@@ -32,6 +32,7 @@ export const registerUser = async (
       firstName: requestBody.firstName,
       lastName: requestBody.lastName,
       email: requestBody.email,
+      role: requestBody.role,
       isActive: false,
       username: userName,
       photo: "",
@@ -64,7 +65,7 @@ export const registerUser = async (
     } else {
       const spec = await dynamoDb.scan(specializationParams).promise();
       if (spec.Items && spec.Items[0]) {
-        const specObj = spec.Items[0].id;
+        specId = await spec.Items[0].id;
       } else {
         specId = uuidv4();
         const createSpecializationParams = {
@@ -75,8 +76,8 @@ export const registerUser = async (
           },
         };
         await dynamoDb.put(createSpecializationParams).promise();
-        await putTrainer(userId, specId);
       }
+      await putTrainer(userId, specId);
     }
 
     return user;
