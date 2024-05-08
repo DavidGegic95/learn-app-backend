@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUser = void 0;
 const updatePasswordRepo_1 = require("../repository/updatePasswordRepo");
+const getUserRepo_1 = require("../repository/getUserRepo");
 const getUser = (event) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
@@ -22,7 +23,7 @@ const getUser = (event) => __awaiter(void 0, void 0, void 0, function* () {
                     "Access-Control-Allow-Origin": "*",
                 },
                 body: JSON.stringify({
-                    message: "Request body and corresponding params missing",
+                    message: "Id or role params missing",
                 }),
             };
         }
@@ -36,6 +37,16 @@ const getUser = (event) => __awaiter(void 0, void 0, void 0, function* () {
                 body: JSON.stringify({ message: "User not found" }),
             };
         }
+        let additionalInfo = {};
+        if (user.role === "trainer") {
+            const trainerInfo = yield (0, getUserRepo_1.getTrainerById)(id);
+            additionalInfo = Object.assign({}, trainerInfo);
+        }
+        else {
+            const studentInfo = yield (0, getUserRepo_1.getStudentByUserId)(id);
+            additionalInfo = Object.assign({}, studentInfo);
+        }
+        delete user.password;
         return {
             statusCode: 200,
             headers: {
@@ -43,7 +54,7 @@ const getUser = (event) => __awaiter(void 0, void 0, void 0, function* () {
             },
             body: JSON.stringify({
                 message: "Get user",
-                data: Object.assign({}, user),
+                data: Object.assign(Object.assign({}, user), additionalInfo),
             }),
         };
     }

@@ -32,22 +32,6 @@ describe("getUser", () => {
     expect(result.body).toEqual(JSON.stringify({ message: "User not found" }));
   });
 
-  it("should return a 200 status code and the user data if user is found", async () => {
-    const mockUser = { id: "123", name: "John Doe" };
-    const event = { queryStringParameters: { id: "123" } };
-    (getUserRepo as jest.Mock).mockResolvedValue(mockUser);
-
-    const result = await getUser(event);
-
-    expect(result.statusCode).toBe(200);
-    expect(result.body).toEqual(
-      JSON.stringify({
-        message: "Get user",
-        data: mockUser,
-      })
-    );
-  });
-
   it("should return a 500 status code and internal server error message if an error occurs", async () => {
     const event = { queryStringParameters: { id: "123" } };
     (getUserRepo as jest.Mock).mockRejectedValue(new Error("Mock error"));

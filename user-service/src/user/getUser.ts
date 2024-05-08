@@ -1,5 +1,6 @@
 import { APIGatewayProxyResult } from "aws-lambda";
 import { getUserRepo } from "../repository/updatePasswordRepo";
+import { getStudentByUserId, getTrainerById } from "../repository/getUserRepo";
 
 export const getUser = async (event: any): Promise<APIGatewayProxyResult> => {
   try {
@@ -25,7 +26,15 @@ export const getUser = async (event: any): Promise<APIGatewayProxyResult> => {
         body: JSON.stringify({ message: "User not found" }),
       };
     }
-
+    let additionalInfo = {};
+    if (user.role === "trainer") {
+      const trainerInfo = await getTrainerById(id);
+      additionalInfo = { ...trainerInfo };
+    } else {
+      const studentInfo = await getStudentByUserId(id);
+      additionalInfo = { ...studentInfo };
+    }
+    delete user.password;
     return {
       statusCode: 200,
       headers: {
@@ -33,7 +42,7 @@ export const getUser = async (event: any): Promise<APIGatewayProxyResult> => {
       },
       body: JSON.stringify({
         message: "Get user",
-        data: { ...user },
+        data: { ...user, ...additionalInfo },
       }),
     };
   } catch (error) {

@@ -14,6 +14,7 @@ const getUser_1 = require("./user/getUser");
 const deleteUser_1 = require("./user/deleteUser");
 const uploadPhoto_1 = require("./user/uploadPhoto");
 const updatePassword_1 = require("./user/updatePassword");
+const updateUserInfo_1 = require("./user/updateUserInfo");
 const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
     const { action } = event.pathParameters || {};
     if (action === "me" && event.httpMethod === "GET") {
@@ -27,6 +28,9 @@ const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
     }
     else if (action === "update-password" && event.httpMethod === "PUT") {
         return (0, updatePassword_1.updatePassword)(event);
+    }
+    else if (action === "update-info" && event.httpMethod === "PUT") {
+        return (0, updateUserInfo_1.updateUserInfo)(event);
     }
     return {
         statusCode: 404,

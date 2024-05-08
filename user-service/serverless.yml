@@ -46,3 +46,10 @@ functions:
           path: users/{action}
           method: put
           cors: true
+  updateInfo:
+    handler: ./dist/index.handler
+    events:
+      - http:
+          path: users/{action}
+          method: put
+          cors: true
