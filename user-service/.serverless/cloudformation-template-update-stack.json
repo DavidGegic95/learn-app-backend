@@ -203,7 +203,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/user-service/dev/1715193385525-2024-05-08T18:36:25.525Z/user-service.zip"
+          "S3Key": "serverless/user-service/dev/1715199207481-2024-05-08T20:13:27.481Z/user-service.zip"
         },
         "Handler": "./dist/index.handler",
         "Runtime": "nodejs20.x",
@@ -228,7 +228,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/user-service/dev/1715193385525-2024-05-08T18:36:25.525Z/user-service.zip"
+          "S3Key": "serverless/user-service/dev/1715199207481-2024-05-08T20:13:27.481Z/user-service.zip"
         },
         "Handler": "./dist/index.handler",
         "Runtime": "nodejs20.x",
@@ -253,7 +253,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/user-service/dev/1715193385525-2024-05-08T18:36:25.525Z/user-service.zip"
+          "S3Key": "serverless/user-service/dev/1715199207481-2024-05-08T20:13:27.481Z/user-service.zip"
         },
         "Handler": "./dist/index.handler",
         "Runtime": "nodejs20.x",
@@ -278,7 +278,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/user-service/dev/1715193385525-2024-05-08T18:36:25.525Z/user-service.zip"
+          "S3Key": "serverless/user-service/dev/1715199207481-2024-05-08T20:13:27.481Z/user-service.zip"
         },
         "Handler": "./dist/index.handler",
         "Runtime": "nodejs20.x",
@@ -303,7 +303,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/user-service/dev/1715193385525-2024-05-08T18:36:25.525Z/user-service.zip"
+          "S3Key": "serverless/user-service/dev/1715199207481-2024-05-08T20:13:27.481Z/user-service.zip"
         },
         "Handler": "./dist/index.handler",
         "Runtime": "nodejs20.x",
@@ -321,54 +321,54 @@
         "UpdateInfoLogGroup"
       ]
     },
-    "GetUserLambdaVersion7PCi3kr5mzc49AuUDt2e9b8wWRo2cxe10Sis4mIPwM": {
+    "GetUserLambdaVersionmwIPO1pkiVVTRm6gbnTL935Sd6iWNTo68G7dDfDgE": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetUserLambdaFunction"
         },
-        "CodeSha256": "uXSrWSYiuXkIYqCEY7UCaqBb8OkCoMkVTPdhbwZA7fI="
+        "CodeSha256": "2DwR8nUAdaZGUm9dNrOlT6wPt/FAr5oGkaqhMw8ChGU="
       }
     },
-    "DeleteUserLambdaVersionen0upAIcyJAOgfM0v3Uhsy5sNSFbEYglI1bZJ7JI": {
+    "DeleteUserLambdaVersionjwzCcBMB5wF82NTxT5iBFg6yPS9wdH4aaE4FeWS4Q": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "DeleteUserLambdaFunction"
         },
-        "CodeSha256": "uXSrWSYiuXkIYqCEY7UCaqBb8OkCoMkVTPdhbwZA7fI="
+        "CodeSha256": "2DwR8nUAdaZGUm9dNrOlT6wPt/FAr5oGkaqhMw8ChGU="
       }
     },
-    "UploadPhotoLambdaVersiona46OEzLKOUJgxQPPOpORPlVmdv1ANuUWjxSdSKbHM": {
+    "UploadPhotoLambdaVersionH8yNQ5vCtwkicwaz7b0yoedMaqU24xPjps8V51dss": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UploadPhotoLambdaFunction"
         },
-        "CodeSha256": "uXSrWSYiuXkIYqCEY7UCaqBb8OkCoMkVTPdhbwZA7fI="
+        "CodeSha256": "2DwR8nUAdaZGUm9dNrOlT6wPt/FAr5oGkaqhMw8ChGU="
       }
     },
-    "UpdatePasswordLambdaVersionKYL488tg3WKYuRyZdPUhDOrZW1MDhd1luEFIeHU": {
+    "UpdatePasswordLambdaVersiontacm3XaFBJxDhELwqDmlSKSTkipTIkdw7PhWheIQb0": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UpdatePasswordLambdaFunction"
         },
-        "CodeSha256": "uXSrWSYiuXkIYqCEY7UCaqBb8OkCoMkVTPdhbwZA7fI="
+        "CodeSha256": "2DwR8nUAdaZGUm9dNrOlT6wPt/FAr5oGkaqhMw8ChGU="
       }
     },
-    "UpdateInfoLambdaVersionoZV5xebZXhm3thns3L5GGi2oezIQJ8bcZ9WRtpa6hQ": {
+    "UpdateInfoLambdaVersionLpyirwV3BNRIrS9q0tyFMTYnIHi0WVfSvXR50FpE": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UpdateInfoLambdaFunction"
         },
-        "CodeSha256": "uXSrWSYiuXkIYqCEY7UCaqBb8OkCoMkVTPdhbwZA7fI="
+        "CodeSha256": "2DwR8nUAdaZGUm9dNrOlT6wPt/FAr5oGkaqhMw8ChGU="
       }
     },
     "ApiGatewayRestApi": {
@@ -639,7 +639,7 @@
         "UpdateInfoLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1715193373439": {
+    "ApiGatewayDeployment1715199193845": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -854,7 +854,7 @@
     "GetUserLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetUserLambdaVersion7PCi3kr5mzc49AuUDt2e9b8wWRo2cxe10Sis4mIPwM"
+        "Ref": "GetUserLambdaVersionmwIPO1pkiVVTRm6gbnTL935Sd6iWNTo68G7dDfDgE"
       },
       "Export": {
         "Name": "sls-user-service-dev-GetUserLambdaFunctionQualifiedArn"
@@ -863,7 +863,7 @@
     "DeleteUserLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DeleteUserLambdaVersionen0upAIcyJAOgfM0v3Uhsy5sNSFbEYglI1bZJ7JI"
+        "Ref": "DeleteUserLambdaVersionjwzCcBMB5wF82NTxT5iBFg6yPS9wdH4aaE4FeWS4Q"
       },
       "Export": {
         "Name": "sls-user-service-dev-DeleteUserLambdaFunctionQualifiedArn"
@@ -872,7 +872,7 @@
     "UploadPhotoLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UploadPhotoLambdaVersiona46OEzLKOUJgxQPPOpORPlVmdv1ANuUWjxSdSKbHM"
+        "Ref": "UploadPhotoLambdaVersionH8yNQ5vCtwkicwaz7b0yoedMaqU24xPjps8V51dss"
       },
       "Export": {
         "Name": "sls-user-service-dev-UploadPhotoLambdaFunctionQualifiedArn"
@@ -881,7 +881,7 @@
     "UpdatePasswordLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UpdatePasswordLambdaVersionKYL488tg3WKYuRyZdPUhDOrZW1MDhd1luEFIeHU"
+        "Ref": "UpdatePasswordLambdaVersiontacm3XaFBJxDhELwqDmlSKSTkipTIkdw7PhWheIQb0"
       },
       "Export": {
         "Name": "sls-user-service-dev-UpdatePasswordLambdaFunctionQualifiedArn"
@@ -890,7 +890,7 @@
     "UpdateInfoLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UpdateInfoLambdaVersionoZV5xebZXhm3thns3L5GGi2oezIQJ8bcZ9WRtpa6hQ"
+        "Ref": "UpdateInfoLambdaVersionLpyirwV3BNRIrS9q0tyFMTYnIHi0WVfSvXR50FpE"
       },
       "Export": {
         "Name": "sls-user-service-dev-UpdateInfoLambdaFunctionQualifiedArn"

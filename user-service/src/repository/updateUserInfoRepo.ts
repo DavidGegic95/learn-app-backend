@@ -53,6 +53,7 @@ export const updateUserRepo = async (body: UserDataType) => {
         body.address,
         body.dateOfBirth
       );
+      if (updatedStudent) updatedUser?.Attributes;
       return updatedStudent;
     } else {
       return updatedUser?.Attributes;

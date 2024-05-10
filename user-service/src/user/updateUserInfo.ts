@@ -36,7 +36,7 @@ export const updateUserInfo = async (
         body: JSON.stringify({ message: "Failed to update user" }),
       };
     }
-
+    delete updateUser.password;
     return {
       statusCode: 200,
       headers: {

@@ -40,6 +40,7 @@ const updateUserInfo = (event) => __awaiter(void 0, void 0, void 0, function* ()
                 body: JSON.stringify({ message: "Failed to update user" }),
             };
         }
+        delete updateUser.password;
         return {
             statusCode: 200,
             headers: {

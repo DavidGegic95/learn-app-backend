@@ -43,6 +43,8 @@ const updateUserRepo = (body) => __awaiter(void 0, void 0, void 0, function* () 
             updatedUser.Attributes.role === "student" &&
             "address" in body) {
             const updatedStudent = yield updateStudentInfoByUserId(body.id, body.address, body.dateOfBirth);
+            if (updatedStudent)
+                updatedUser === null || updatedUser === void 0 ? void 0 : updatedUser.Attributes;
             return updatedStudent;
         }
         else {

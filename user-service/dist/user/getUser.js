@@ -23,7 +23,7 @@ const getUser = (event) => __awaiter(void 0, void 0, void 0, function* () {
                     "Access-Control-Allow-Origin": "*",
                 },
                 body: JSON.stringify({
-                    message: "Id or role params missing",
+                    message: "Request body and corresponding params missing",
                 }),
             };
         }
